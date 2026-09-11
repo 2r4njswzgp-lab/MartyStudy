@@ -946,8 +946,9 @@
   }
 
   function buildCalc(t) {
+    // z 20 příkladů úrovně náhodně vybereme 10; při „Zkusit znovu" vyjde jiná desítka
     const pool = (t.examples || []).slice();
-    return shuffle(pool).slice(0, Math.min(20, pool.length)).map((ex) => {
+    return shuffle(pool).slice(0, Math.min(10, pool.length)).map((ex) => {
       const opts = numericOptions(ex.a);
       return {
         emoji: calcEmoji(ex.q),

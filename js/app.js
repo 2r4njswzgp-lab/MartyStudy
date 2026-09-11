@@ -1091,8 +1091,15 @@
         <button class="btn" id="nextBtn" style="--accent:${q.s.color}">${last ? "🏁 Výsledek" : "Další otázka ›"}</button>
       </div>`;
 
-    if (isCorrect) { sparkle(); lumiPraise("Skvělá práce!"); }
-    else if (q.wrong === 2) { lumiPraise("Marťo, snaž se víc!"); }
+    if (isCorrect) {
+      sparkle();
+      // „Skvělá práce!" poprvé po 3. správné, pak po každé druhé další (3, 5, 7, …)
+      if (q.correct === 3 || (q.correct > 3 && (q.correct - 3) % 2 === 0)) {
+        lumiPraise("Skvělá práce!");
+      }
+    } else if (q.wrong === 2) {
+      lumiPraise("Marťo, snaž se víc!");
+    }
 
     $("#nextBtn").addEventListener("click", () => {
       if (last) finishQuiz();

@@ -561,6 +561,17 @@
         };
       });
     }
+    if (t.type === "calc") {
+      return (t.examples || []).map((ex) => {
+        const multi = ex.q.split(/[+\-]/).length > 2;
+        return {
+          math: true,
+          word: `${ex.q} = ${ex.a}`,
+          emoji: calcEmoji(ex.q),
+          note: multi ? stepByStep(ex.q) : ""
+        };
+      });
+    }
     if (t.type === "arith") {
       const ex = [
         { a: 5, b: 3, op: "+" }, { a: 8, b: 2, op: "-" }, { a: 7, b: 6, op: "+" },
@@ -667,6 +678,7 @@
   function buildQuestions(s, t) {
     if (t.type === "times") return buildTimes(t.factor);
     if (t.type === "divide") return buildDivide(t.factor);
+    if (t.type === "calc") return buildCalc(t);
     if (t.type === "arith") return buildArith();
     if (t.type === "vocab") return buildVocab(t.cards);
     if (t.type === "vyjm") return buildVyjm(t.cards);
@@ -914,6 +926,40 @@
     });
   }
 
+  // ikonka podle toho, co příklad obsahuje
+  function calcEmoji(q) {
+    const p = q.includes("+"), m = q.includes("-");
+    return p && m ? "🧮" : m ? "➖" : "➕";
+  }
+  // postupný výpočet zleva doprava: "5 + 4 = 9 → 9 - 2 = 7 → 7 + 7 = 14"
+  function stepByStep(q) {
+    const t = q.trim().split(/\s+/);
+    let acc = parseInt(t[0], 10);
+    const steps = [];
+    for (let i = 1; i < t.length; i += 2) {
+      const op = t[i], n = parseInt(t[i + 1], 10);
+      const nx = op === "+" ? acc + n : acc - n;
+      steps.push(`${acc} ${op} ${n} = ${nx}`);
+      acc = nx;
+    }
+    return steps.join(" → ");
+  }
+
+  function buildCalc(t) {
+    const pool = (t.examples || []).slice();
+    return shuffle(pool).slice(0, Math.min(20, pool.length)).map((ex) => {
+      const opts = numericOptions(ex.a);
+      return {
+        emoji: calcEmoji(ex.q),
+        prompt: `${ex.q} = ?`,
+        options: opts.map((n) => ({ label: n, correct: n === ex.a })),
+        twoCol: true,
+        explain: `${ex.q} = ${ex.a}`,
+        explainWrong: `Zkus to postupně: ${stepByStep(ex.q)}`
+      };
+    });
+  }
+
   function buildArith() {
     const qs = [];
     for (let i = 0; i < 10; i++) {
@@ -1122,7 +1168,7 @@
     fb.innerHTML = `
       <div class="feedback ${isCorrect ? "good" : "bad"}">
         ${isCorrect ? "🎉 Skvěle! Tohle máš správně." : "🙂 Skoro! Zkus se podívat ještě jednou."}
-        <span class="expl">${question.explain}</span>
+        <span class="expl">${isCorrect ? question.explain : (question.explainWrong || question.explain)}</span>
       </div>
       <div class="btn-row">
         <button class="btn" id="nextBtn" style="--accent:${q.s.color}">${last ? "🏁 Výsledek" : "Další otázka ›"}</button>

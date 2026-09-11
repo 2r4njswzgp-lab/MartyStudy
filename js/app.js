@@ -81,6 +81,7 @@
      Lumi – kamarád na učení (hlas v češtině, uvítání, pochvala)
      ---------------------------------------------------------------------- */
   const LUMI_IMG = "img/lumi.png";
+  const INTRO_VIDEO = "video.mp4";
   const LUMI_GREETING = "Ahoj Marťo, já jsem Lumi, těším se, co všechno se spolu naučíme.";
   let csVoice = null;
 
@@ -127,17 +128,31 @@
     if (greeted) return;
     greeted = true;
     const ov = document.createElement("div");
-    ov.className = "lumi-overlay";
-    ov.innerHTML = `<div class="lumi-card">
-        <span class="l-alive"><img src="${LUMI_IMG}" class="l-fig wave-loop" alt="Lumi" /></span>
-        <div class="lumi-bubble"><span class="hi">Ahoj Marťo!</span> Já jsem <b>Lumi</b> 🤖<br>Těším se, co všechno se spolu naučíme!</div>
-        <button class="btn" id="lumiHi" style="margin-top:16px">👋 Ahoj Lumi!</button>
+    ov.className = "lumi-overlay video-intro";
+    ov.innerHTML = `<div class="intro-video-wrap">
+        <video id="introVid" src="${INTRO_VIDEO}" playsinline preload="auto"></video>
+        <button class="btn" id="introPlay">▶️ Přehrát</button>
+        <button class="intro-skip" id="introSkip">Přeskočit ✕</button>
       </div>`;
     document.body.appendChild(ov);
-    // pozdrav je jen text, bez zvuku
-    const close = () => { ov.remove(); };
-    $("#lumiHi").addEventListener("click", close);
-    ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
+
+    const vid = $("#introVid");
+    const playBtn = $("#introPlay");
+    let closed = false;
+    const close = () => {
+      if (closed) return; closed = true;
+      try { vid.pause(); } catch (e) {}
+      ov.remove();
+    };
+
+    $("#introSkip").addEventListener("click", close);
+    playBtn.addEventListener("click", () => { vid.play(); });
+    vid.addEventListener("playing", () => { playBtn.hidden = true; });
+    vid.addEventListener("ended", close);
+    vid.addEventListener("error", close); // kdyby se video nenačetlo, nezablokuje appku
+    // pokus o automatické spuštění; když prohlížeč blokuje, zůstane tlačítko Přehrát
+    const p = vid.play();
+    if (p && p.catch) p.catch(() => { playBtn.hidden = false; });
   }
 
   // Pochvala „Skvělá práce!" – hlas + bublina v rohu

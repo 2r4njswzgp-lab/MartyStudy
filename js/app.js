@@ -141,7 +141,7 @@
         <div class="intro-video-wrap">
           <video id="introVid" src="${INTRO_VIDEO}" muted autoplay loop playsinline preload="auto"></video>
         </div>
-        <div class="lumi-bubble"><span class="hi">Ahoj Marťo!</span> Já jsem <b>Lumi</b> 🤖<br>Těším se, co všechno se spolu naučíme!</div>
+        <div class="lumi-bubble"><span class="hi">Ahoj Marťo,</span> rád tě vidím. 🤖<br>Pojďme se něco naučit!</div>
         <button class="btn" id="lumiHi" style="margin-top:16px">👋 Ahoj Lumi!</button>
       </div>`;
     document.body.appendChild(ov);
@@ -268,7 +268,7 @@
 
       <div class="lumi-hero">
         <span class="l-alive"><img src="${LUMI_IMG}" id="lumiHero" class="l-fig" alt="Lumi" /></span>
-        <div class="hello">Ahoj! Jsem <b style="color:var(--blue)">Lumi</b>, tvůj kamarád na učení. Klikni na mě a pojďme na to! 👋</div>
+        <div class="hello"><b style="color:var(--blue)">Ahoj Marťo,</b> vítej zpět. 👋</div>
       </div>
 
       ${installBannerHTML()}

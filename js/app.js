@@ -134,11 +134,9 @@
         <button class="btn" id="lumiHi" style="margin-top:16px">👋 Ahoj Lumi!</button>
       </div>`;
     document.body.appendChild(ov);
-    lumiSay(LUMI_GREETING);
+    // pozdrav je jen text, bez zvuku
     const close = () => { ov.remove(); };
-    // na mobilu spustí hlas až dotek – proto řekneme pozdrav i při ťuknutí
-    $("#lumiHi").addEventListener("click", () => { lumiSay(LUMI_GREETING); close(); });
-    // kdyby prohlížeč blokoval automatické přehrání, řekni to při prvním doteku
+    $("#lumiHi").addEventListener("click", close);
     ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
   }
 
@@ -897,7 +895,7 @@
     const questions = buildQuestions(s, t);
     if (!questions.length) return go(`/topic/${sid}/${tid}`);
 
-    quizState = { s, t, sid, tid, questions, idx: 0, correct: 0, answered: false };
+    quizState = { s, t, sid, tid, questions, idx: 0, correct: 0, wrong: 0, answered: false };
     drawQuestion();
   }
 
@@ -959,6 +957,7 @@
 
     store.stats.answered += 1;
     if (isCorrect) { store.stats.correct += 1; q.correct += 1; }
+    else { q.wrong += 1; }
     save();
 
     // Zvýrazni odpovědi
@@ -982,6 +981,7 @@
       </div>`;
 
     if (isCorrect) { sparkle(); lumiPraise("Skvělá práce!"); }
+    else if (q.wrong === 2) { lumiPraise("Marťo, snaž se víc!"); }
 
     $("#nextBtn").addEventListener("click", () => {
       if (last) finishQuiz();
@@ -997,10 +997,11 @@
     recordResult(q.sid, q.tid, q.t.name, pct);
 
     let medal, msg;
-    if (pct >= 90) { medal = "🏆"; msg = "Paráda! Jsi hvězda!"; }
-    else if (pct >= 70) { medal = "🥇"; msg = "Super práce! Skoro všechno správně."; }
-    else if (pct >= 40) { medal = "🥈"; msg = "Dobře ti to jde, jen tak dál!"; }
-    else { medal = "🌱"; msg = "Nevadí! Zkus to znovu, půjde to líp."; }
+    if (pct >= 90) { medal = "🏆"; msg = "Skvělá práce!"; }
+    else if (pct >= 70) { medal = "🥇"; msg = "Docela to ušlo!"; }
+    else if (pct >= 50) { medal = "🥈"; msg = "Pojďme zopakovat cvičení, ať jsi lepší!"; }
+    else if (pct >= 30) { medal = "🌱"; msg = "Musíme se učit!"; }
+    else { medal = "💪"; msg = "Musíme se to naučit!"; }
 
     app.innerHTML = `
       <div class="result">
@@ -1015,10 +1016,11 @@
         </div>
       </div>`;
 
-    if (pct >= 70) { bigConfetti(); lumiPraise("Skvělá práce, Marťo!"); }
-    else lumiPraise("Dobrá práce! Zkus to zas.");
+    if (pct >= 70) bigConfetti();
+    lumiPraise(msg);
 
-    $("#againBtn").addEventListener("click", () => go(`/quiz/${q.sid}/${q.tid}`));
+    // restart voláme přímo – hash zůstává stejný, takže go() by nic neudělalo
+    $("#againBtn").addEventListener("click", () => renderQuiz(q.sid, q.tid));
     $("#learnBtn").addEventListener("click", () => go(`/topic/${q.sid}/${q.tid}`));
   }
 

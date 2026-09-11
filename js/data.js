@@ -422,6 +422,156 @@ const DATA = {
             { en: "sing", cs: "zpívat", emoji: "🎤", sentence: "I sing a song.", scs: "Zpívám písničku." },
             { en: "jump", cs: "skákat", emoji: "🤸", sentence: "I jump high.", scs: "Skáču vysoko." }
           ]
+        },
+        {
+          id: "vety-pozdravy", name: "Věty – Pozdravy a fráze", icon: "👋", type: "phrases",
+          cards: [
+            { en: "Hello!", cs: "Ahoj!", emoji: "👋", phrase: true },
+            { en: "Good morning.", cs: "Dobré ráno.", emoji: "🌅", phrase: true },
+            { en: "Good afternoon.", cs: "Dobré odpoledne.", emoji: "☀️", phrase: true },
+            { en: "Good evening.", cs: "Dobrý večer.", emoji: "🌆", phrase: true },
+            { en: "Goodbye.", cs: "Na shledanou.", emoji: "👋", phrase: true },
+            { en: "See you.", cs: "Uvidíme se.", emoji: "🙌", phrase: true },
+            { en: "Thank you.", cs: "Děkuji.", emoji: "🙏", phrase: true },
+            { en: "Please.", cs: "Prosím.", emoji: "🙂", phrase: true },
+            { en: "You are welcome.", cs: "Není zač.", emoji: "😊", phrase: true },
+            { en: "I am sorry.", cs: "Promiň.", emoji: "😔", phrase: true }
+          ]
+        },
+        {
+          id: "vety-omne", name: "Věty – O mně", icon: "🙋", type: "phrases",
+          cards: [
+            { en: "What is your name?", cs: "Jak se jmenuješ?", emoji: "❓", phrase: true },
+            { en: "My name is Tom.", cs: "Jmenuji se Tom.", emoji: "🧒", phrase: true },
+            { en: "How are you?", cs: "Jak se máš?", emoji: "🤔", phrase: true },
+            { en: "I am fine.", cs: "Mám se dobře.", emoji: "🙂", phrase: true },
+            { en: "I am happy.", cs: "Jsem šťastný.", emoji: "😄", phrase: true },
+            { en: "I am sad.", cs: "Jsem smutný.", emoji: "😢", phrase: true },
+            { en: "I am tired.", cs: "Jsem unavený.", emoji: "😴", phrase: true },
+            { en: "I am hungry.", cs: "Mám hlad.", emoji: "🍽️", phrase: true },
+            { en: "I am thirsty.", cs: "Mám žízeň.", emoji: "🥤", phrase: true },
+            { en: "I am eight years old.", cs: "Je mi osm let.", emoji: "8️⃣", phrase: true }
+          ]
+        },
+        {
+          id: "vety-rodina", name: "Věty – Rodina", icon: "👨‍👩‍👧", type: "phrases",
+          cards: [
+            { en: "This is my mum.", cs: "Toto je moje maminka.", emoji: "👩", phrase: true },
+            { en: "This is my dad.", cs: "Toto je můj tatínek.", emoji: "👨", phrase: true },
+            { en: "I have a brother.", cs: "Mám bratra.", emoji: "👦", phrase: true },
+            { en: "I have a sister.", cs: "Mám sestru.", emoji: "👧", phrase: true },
+            { en: "I love my family.", cs: "Mám rád svou rodinu.", emoji: "❤️", phrase: true },
+            { en: "My mum is nice.", cs: "Moje maminka je hodná.", emoji: "😊", phrase: true },
+            { en: "My dad is tall.", cs: "Můj tatínek je vysoký.", emoji: "📏", phrase: true },
+            { en: "My brother is funny.", cs: "Můj bratr je legrační.", emoji: "😂", phrase: true },
+            { en: "My sister is small.", cs: "Moje sestra je malá.", emoji: "🧒", phrase: true },
+            { en: "We are a family.", cs: "Jsme rodina.", emoji: "👨‍👩‍👧‍👦", phrase: true }
+          ]
+        },
+        {
+          id: "vety-zvirata", name: "Věty – Zvířata", icon: "🐾", type: "phrases",
+          cards: [
+            { en: "I have a dog.", cs: "Mám psa.", emoji: "🐶", phrase: true },
+            { en: "I have a cat.", cs: "Mám kočku.", emoji: "🐱", phrase: true },
+            { en: "The dog is big.", cs: "Pes je velký.", emoji: "🐕", phrase: true },
+            { en: "The cat is small.", cs: "Kočka je malá.", emoji: "🐈", phrase: true },
+            { en: "The bird can fly.", cs: "Pták umí létat.", emoji: "🐦", phrase: true },
+            { en: "The fish can swim.", cs: "Ryba umí plavat.", emoji: "🐟", phrase: true },
+            { en: "The rabbit is white.", cs: "Králík je bílý.", emoji: "🐰", phrase: true },
+            { en: "The horse is brown.", cs: "Kůň je hnědý.", emoji: "🐴", phrase: true },
+            { en: "The mouse is grey.", cs: "Myš je šedá.", emoji: "🐭", phrase: true },
+            { en: "I like animals.", cs: "Mám rád zvířata.", emoji: "🐾", phrase: true }
+          ]
+        },
+        {
+          id: "vety-skola", name: "Věty – Škola", icon: "🏫", type: "phrases",
+          cards: [
+            { en: "This is my school.", cs: "Toto je moje škola.", emoji: "🏫", phrase: true },
+            { en: "I am at school.", cs: "Jsem ve škole.", emoji: "🎒", phrase: true },
+            { en: "This is my classroom.", cs: "Toto je moje třída.", emoji: "🪑", phrase: true },
+            { en: "I have a book.", cs: "Mám knihu.", emoji: "📖", phrase: true },
+            { en: "I have a pencil.", cs: "Mám tužku.", emoji: "✏️", phrase: true },
+            { en: "Open your book.", cs: "Otevři si knihu.", emoji: "📖", phrase: true },
+            { en: "Close your book.", cs: "Zavři si knihu.", emoji: "📕", phrase: true },
+            { en: "Sit down, please.", cs: "Sedni si, prosím.", emoji: "🪑", phrase: true },
+            { en: "Stand up, please.", cs: "Postav se, prosím.", emoji: "🧍", phrase: true },
+            { en: "Listen to me.", cs: "Poslouchej mě.", emoji: "👂", phrase: true }
+          ]
+        },
+        {
+          id: "vety-barvy", name: "Věty – Barvy a věci", icon: "🎨", type: "phrases",
+          cards: [
+            { en: "The book is blue.", cs: "Kniha je modrá.", emoji: "📘", phrase: true },
+            { en: "The pencil is yellow.", cs: "Tužka je žlutá.", emoji: "✏️", phrase: true },
+            { en: "My bag is red.", cs: "Moje taška je červená.", emoji: "🎒", phrase: true },
+            { en: "The table is brown.", cs: "Stůl je hnědý.", emoji: "🟫", phrase: true },
+            { en: "The chair is green.", cs: "Židle je zelená.", emoji: "🪑", phrase: true },
+            { en: "I like blue.", cs: "Mám rád modrou.", emoji: "🔵", phrase: true },
+            { en: "My favourite colour is red.", cs: "Moje oblíbená barva je červená.", emoji: "🔴", phrase: true },
+            { en: "The sun is yellow.", cs: "Slunce je žluté.", emoji: "☀️", phrase: true },
+            { en: "The grass is green.", cs: "Tráva je zelená.", emoji: "🌱", phrase: true },
+            { en: "The snow is white.", cs: "Sníh je bílý.", emoji: "❄️", phrase: true }
+          ]
+        },
+        {
+          id: "vety-jidlo", name: "Věty – Jídlo a pití", icon: "🍎", type: "phrases",
+          cards: [
+            { en: "I like apples.", cs: "Mám rád jablka.", emoji: "🍎", phrase: true },
+            { en: "I like bananas.", cs: "Mám rád banány.", emoji: "🍌", phrase: true },
+            { en: "I like milk.", cs: "Mám rád mléko.", emoji: "🥛", phrase: true },
+            { en: "I like water.", cs: "Mám rád vodu.", emoji: "💧", phrase: true },
+            { en: "I like bread.", cs: "Mám rád chleba.", emoji: "🍞", phrase: true },
+            { en: "I like cheese.", cs: "Mám rád sýr.", emoji: "🧀", phrase: true },
+            { en: "I do not like onions.", cs: "Nemám rád cibuli.", emoji: "🧅", phrase: true },
+            { en: "The apple is red.", cs: "Jablko je červené.", emoji: "🍎", phrase: true },
+            { en: "The banana is yellow.", cs: "Banán je žlutý.", emoji: "🍌", phrase: true },
+            { en: "I eat breakfast.", cs: "Snídám.", emoji: "🍳", phrase: true }
+          ]
+        },
+        {
+          id: "vety-umim", name: "Věty – Co umím", icon: "💪", type: "phrases",
+          cards: [
+            { en: "I can run.", cs: "Umím běhat.", emoji: "🏃", phrase: true },
+            { en: "I can jump.", cs: "Umím skákat.", emoji: "🤸", phrase: true },
+            { en: "I can swim.", cs: "Umím plavat.", emoji: "🏊", phrase: true },
+            { en: "I can sing.", cs: "Umím zpívat.", emoji: "🎤", phrase: true },
+            { en: "I can dance.", cs: "Umím tancovat.", emoji: "💃", phrase: true },
+            { en: "I can read.", cs: "Umím číst.", emoji: "📖", phrase: true },
+            { en: "I can write.", cs: "Umím psát.", emoji: "✍️", phrase: true },
+            { en: "I can draw.", cs: "Umím kreslit.", emoji: "🎨", phrase: true },
+            { en: "I can ride a bike.", cs: "Umím jezdit na kole.", emoji: "🚲", phrase: true },
+            { en: "I can play football.", cs: "Umím hrát fotbal.", emoji: "⚽", phrase: true }
+          ]
+        },
+        {
+          id: "vety-pocasi", name: "Věty – Počasí a dny", icon: "🌦️", type: "phrases",
+          cards: [
+            { en: "It is sunny.", cs: "Je slunečno.", emoji: "☀️", phrase: true },
+            { en: "It is raining.", cs: "Prší.", emoji: "🌧️", phrase: true },
+            { en: "It is snowing.", cs: "Sněží.", emoji: "❄️", phrase: true },
+            { en: "It is cold.", cs: "Je zima.", emoji: "🥶", phrase: true },
+            { en: "It is hot.", cs: "Je horko.", emoji: "🥵", phrase: true },
+            { en: "The sky is blue.", cs: "Obloha je modrá.", emoji: "🌤️", phrase: true },
+            { en: "I like summer.", cs: "Mám rád léto.", emoji: "🏖️", phrase: true },
+            { en: "I like winter.", cs: "Mám rád zimu.", emoji: "⛄", phrase: true },
+            { en: "Today is Monday.", cs: "Dnes je pondělí.", emoji: "📅", phrase: true },
+            { en: "Tomorrow is Tuesday.", cs: "Zítra je úterý.", emoji: "🗓️", phrase: true }
+          ]
+        },
+        {
+          id: "vety-kde", name: "Věty – Kde co je", icon: "📍", type: "phrases",
+          cards: [
+            { en: "Where are you?", cs: "Kde jsi?", emoji: "❓", phrase: true },
+            { en: "I am at home.", cs: "Jsem doma.", emoji: "🏠", phrase: true },
+            { en: "Where is my book?", cs: "Kde je moje kniha?", emoji: "📖", phrase: true },
+            { en: "The book is on the table.", cs: "Kniha je na stole.", emoji: "📚", phrase: true },
+            { en: "The cat is under the chair.", cs: "Kočka je pod židlí.", emoji: "🐱", phrase: true },
+            { en: "The ball is in the box.", cs: "Míč je v krabici.", emoji: "📦", phrase: true },
+            { en: "Come here, please.", cs: "Pojď sem, prosím.", emoji: "👉", phrase: true },
+            { en: "Let us play.", cs: "Pojďme si hrát.", emoji: "🎲", phrase: true },
+            { en: "I like English.", cs: "Mám rád angličtinu.", emoji: "🇬🇧", phrase: true },
+            { en: "English is fun!", cs: "Angličtina je zábava!", emoji: "🎉", phrase: true }
+          ]
         }
       ]
     }

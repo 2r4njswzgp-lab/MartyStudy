@@ -525,7 +525,13 @@
     const favLabel = fav ? "★ Oblíbené" : "☆ Oblíbené";
 
     let body = "";
-    if (c.en) {
+    if (c.phrase) {
+      // Anglická věta (celá fráze)
+      body = `
+        <div class="big-emoji">${c.emoji}</div>
+        <div class="phrase-en">${c.en}</div>
+        <div class="phrase-cs">${c.cs}</div>`;
+    } else if (c.en) {
       // Anglické slovíčko
       body = `
         <div class="big-emoji">${c.emoji}</div>
@@ -548,10 +554,13 @@
         <div class="sentence">„${c.sentence}“</div>`;
     }
 
-    const speakBtn = c.en
-      ? `<button class="iconbtn speak" data-speak="${c.en}">🔊 Slovo</button>
-         <button class="iconbtn speak" data-speak="${c.sentence}">🗣️ Věta</button>`
-      : "";
+    let speakBtn = "";
+    if (c.phrase) {
+      speakBtn = `<button class="iconbtn speak" data-speak="${c.en}">🔊 Poslech</button>`;
+    } else if (c.en) {
+      speakBtn = `<button class="iconbtn speak" data-speak="${c.en}">🔊 Slovo</button>
+         <button class="iconbtn speak" data-speak="${c.sentence}">🗣️ Věta</button>`;
+    }
 
     return `<div class="flash" style="--accent:${s.color}" data-card="${i}">
         ${body}
@@ -605,7 +614,33 @@
     if (t.type === "zs") return buildZS(t);
     if (t.type === "units") return buildUnits();
     if (t.type === "hardsoft") return buildHardSoft(t);
+    if (t.type === "phrases") return buildPhrases(t.cards);
     return [];
+  }
+
+  // Kvíz „Věty" – vyber překlad / poslechni a vyber překlad
+  function buildPhrases(cards) {
+    const pool = cards.slice();
+    return shuffle(pool).slice(0, Math.min(10, pool.length)).map((card, i) => {
+      const others = shuffle(pool.filter((c) => c.en !== card.en)).slice(0, 3);
+      const opts = shuffle([card, ...others]).map((c) => ({ label: c.cs, correct: c.en === card.en }));
+      if (i % 2 === 0) {
+        return {
+          emoji: card.emoji,
+          prompt: `Co znamená:<br><span class="q-sentence">${card.en}</span>`,
+          audio: card.en, speakLabel: "🔊 Přehrát větu",
+          options: opts, twoCol: false,
+          explain: `${card.en} = ${card.cs}`
+        };
+      }
+      return {
+        emoji: "🔊",
+        prompt: `Poslechni si větu a vyber překlad.`,
+        audio: card.en, autoSpeak: true, speakLabel: "🔊 Přehrát větu",
+        options: opts, twoCol: false,
+        explain: `${card.en} = ${card.cs}`
+      };
+    });
   }
 
   // Kvíz „Tvrdé a měkké souhlásky" – doplň I/Í vs Y/Ý + vyber správné psaní

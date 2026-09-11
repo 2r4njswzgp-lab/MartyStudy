@@ -1,5 +1,5 @@
 /* MartyStudy – service worker (offline + automatická aktualizace) */
-const CACHE = "martystudy-v14";
+const CACHE = "martystudy-v15";
 const ASSETS = [
   "./",
   "./index.html",

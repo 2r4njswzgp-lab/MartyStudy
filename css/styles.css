@@ -218,6 +218,8 @@ p { line-height: 1.4; }
 .flash .note { color: var(--muted); font-weight: 700; margin: 10px 0 4px; font-size: 16px; }
 .flash .sentence { font-style: italic; color: var(--text); opacity: 0.95; font-size: 17px; font-weight: 700; }
 .flash .sentence-cs { color: var(--muted); font-weight: 700; font-size: 14px; margin-top: 3px; }
+.flash .phrase-en { font-size: 24px; font-weight: 900; color: var(--blue); text-shadow: 0 0 12px rgba(0,229,255,0.4); text-wrap: balance; line-height: 1.25; }
+.flash .phrase-cs { font-size: 17px; font-weight: 800; color: var(--text); margin-top: 8px; }
 .flash .card-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
 .iconbtn {
   border: 1px solid var(--line); background: var(--card2); color: var(--text);

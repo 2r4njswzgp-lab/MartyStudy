@@ -1,0 +1,27 @@
+{
+  "name": "MartyStudy",
+  "short_name": "MartyStudy",
+  "description": "Uč se chytře. Pamatuj si víc. Zábavná pomůcka pro učení pro 3. třídu.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d0d14",
+  "theme_color": "#0d0d14",
+  "lang": "cs",
+  "categories": ["education", "kids"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,415 @@
+/* ==========================================================================
+   MartyStudy – obsah aplikace (data)
+   Všechno je v jednom souboru, aby to fungovalo i offline bez sítě.
+   ========================================================================== */
+
+/* Typy témat:
+   'vyjm'  – vyjmenovaná slova (kartička: slovo + zvýrazněné y/ý, kvíz y/i)
+   'vocab' – slovíčka (angličtina: en + cs + emoji + věta + překlad věty)
+   'times' – násobilka (generovaný kvíz, factor = číslo)
+   'arith' – sčítání a odčítání (generovaný kvíz)
+   'soon'  – téma se připravuje (Brzy doplníme)
+
+   U anglických slovíček:
+   en       – anglické slovo
+   cs       – český překlad
+   sentence – anglická věta (čtení + poslech + cvičení „doplň slovo")
+   scs      – český překlad věty (aby dítě větě rozumělo)
+*/
+
+const DATA = {
+  subjects: [
+    {
+      id: "cj",
+      name: "Český jazyk",
+      short: "Čeština",
+      color: "#b026ff",
+      color2: "#e15bff",
+      icon: "📚",
+      topics: [
+        {
+          id: "vyjm-b", name: "Vyjmenovaná slova po B", icon: "🅱️", type: "vyjm",
+          cards: [
+            { word: "být", hl: "ý", emoji: "🧍", note: "Znamená existovat.", sentence: "Chci být zdravý." },
+            { word: "bydlit", hl: "y", emoji: "🏠", note: "Někde žít, mít domov.", sentence: "Budeme bydlit u lesa." },
+            { word: "obyvatel", hl: "y", emoji: "🧑", note: "Člověk, který někde bydlí.", sentence: "Je to obyvatel našeho města." },
+            { word: "byt", hl: "y", emoji: "🏢", note: "Místo, kde bydlíme v domě.", sentence: "Máme nový byt." },
+            { word: "příbytek", hl: "y", emoji: "🏡", note: "Místo, kde někdo bydlí.", sentence: "Ježek má příbytek v listí." },
+            { word: "nábytek", hl: "y", emoji: "🪑", note: "Stůl, židle, skříň.", sentence: "Koupili jsme nový nábytek." },
+            { word: "dobytek", hl: "y", emoji: "🐄", note: "Domácí zvířata na statku.", sentence: "Sedlák pase dobytek." },
+            { word: "obyčej", hl: "y", emoji: "🎭", note: "Starý zvyk, tradice.", sentence: "Je to starý vánoční obyčej." },
+            { word: "bystrý", hl: "y", emoji: "🦊", note: "Chytrý a rychlý.", sentence: "Lišák je bystrý." },
+            { word: "bylina", hl: "y", emoji: "🌿", note: "Zelená léčivá rostlina.", sentence: "Máta je voňavá bylina." },
+            { word: "kobyla", hl: "y", emoji: "🐴", note: "Koňská samice.", sentence: "Kobyla má malé hříbě." },
+            { word: "býk", hl: "ý", emoji: "🐂", note: "Silné zvíře, samec krávy.", sentence: "Na louce stojí velký býk." },
+            { word: "babyka", hl: "y", emoji: "🍁", note: "Druh javoru (strom).", sentence: "Babyka roste u cesty." }
+          ]
+        },
+        {
+          id: "vyjm-l", name: "Vyjmenovaná slova po L", icon: "🇱", type: "vyjm",
+          cards: [
+            { word: "slyšet", hl: "y", emoji: "👂", note: "Vnímat zvuky ušima.", sentence: "Je slyšet ptáčky." },
+            { word: "mlýn", hl: "ý", emoji: "🌀", note: "Mele obilí na mouku.", sentence: "U řeky stojí starý mlýn." },
+            { word: "blýskat se", hl: "ý", emoji: "⚡", note: "Svítit jako blesk.", sentence: "Na nebi se blýská." },
+            { word: "polykat", hl: "y", emoji: "😋", note: "Nechat jídlo sklouznout do krku.", sentence: "Nesmíš polykat sousta rychle." },
+            { word: "plynout", hl: "y", emoji: "🌊", note: "Pomalu téci.", sentence: "Řeka klidně plyne." },
+            { word: "plýtvat", hl: "ý", emoji: "💸", note: "Zbytečně utrácet.", sentence: "Nesmíme plýtvat vodou." },
+            { word: "vzlykat", hl: "y", emoji: "😢", note: "Plakat s popotahováním.", sentence: "Nemusíš vzlykat, pomůžu ti." },
+            { word: "lysý", hl: "y", emoji: "👨‍🦲", note: "Bez vlasů, holohlavý.", sentence: "Dědeček je trochu lysý." },
+            { word: "lýtko", hl: "ý", emoji: "🦵", note: "Zadní část nohy pod kolenem.", sentence: "Po běhu mě bolí lýtko." },
+            { word: "lýko", hl: "ý", emoji: "🪵", note: "Vrstva pod kůrou stromu.", sentence: "Lýko drží strom pohromadě." },
+            { word: "lyže", hl: "y", emoji: "⛷️", note: "Jezdíme na nich po sněhu.", sentence: "V zimě jezdím na lyže." },
+            { word: "pelyněk", hl: "y", emoji: "🌱", note: "Hořká bylinka.", sentence: "Pelyněk hořce voní." },
+            { word: "plyš", hl: "y", emoji: "🧸", note: "Měkká látka na hračky.", sentence: "Mám medvídka z plyše." }
+          ]
+        },
+        {
+          id: "vyjm-m", name: "Vyjmenovaná slova po M", icon: "🇲", type: "vyjm",
+          cards: [
+            { word: "my", hl: "y", emoji: "👥", note: "Já a ostatní dohromady.", sentence: "My jsme kamarádi." },
+            { word: "mýt", hl: "ý", emoji: "🧼", note: "Čistit vodou a mýdlem.", sentence: "Musíš si mýt ruce." },
+            { word: "myslit", hl: "y", emoji: "🤔", note: "Přemýšlet hlavou.", sentence: "Musíš myslit na úkol." },
+            { word: "mýlit se", hl: "ý", emoji: "❌", note: "Udělat chybu, splést se.", sentence: "Každý se může mýlit." },
+            { word: "hmyz", hl: "y", emoji: "🐜", note: "Brouci, mravenci, mouchy.", sentence: "Na louce žije hmyz." },
+            { word: "myš", hl: "y", emoji: "🐭", note: "Malý hlodavec.", sentence: "Myš schovala sýr." },
+            { word: "hlemýžď", hl: "ý", emoji: "🐌", note: "Šnek s ulitou.", sentence: "Hlemýžď leze pomalu." },
+            { word: "mýtit", hl: "ý", emoji: "🪓", note: "Kácet les.", sentence: "Nesmíme mýtit lesy." },
+            { word: "zamykat", hl: "y", emoji: "🔒", note: "Zavírat na klíč.", sentence: "Nezapomeň zamykat dveře." },
+            { word: "smýkat", hl: "ý", emoji: "🛷", note: "Táhnout něco po zemi.", sentence: "Nesmýkej tašku po zemi." },
+            { word: "dmýchat", hl: "ý", emoji: "🔥", note: "Foukat do ohně.", sentence: "Kovář dmýchá do výhně." },
+            { word: "chmýří", hl: "ý", emoji: "🪶", note: "Jemné chloupky nebo peří.", sentence: "Kuřátko má měkké chmýří." },
+            { word: "nachomýtnout se", hl: "ý", emoji: "👀", note: "Náhodou se objevit.", sentence: "Nachomýtl se k nám kamarád." },
+            { word: "Litomyšl", hl: "y", emoji: "🏰", note: "Město se zámkem.", sentence: "Byli jsme na zámku v Litomyšli." }
+          ]
+        },
+        {
+          id: "vyjm-p", name: "Vyjmenovaná slova po P", icon: "🇵", type: "vyjm",
+          cards: [
+            { word: "pýcha", hl: "ý", emoji: "😤", note: "Když je někdo namyšlený.", sentence: "Pýcha není hezká." },
+            { word: "pytel", hl: "y", emoji: "🛍️", note: "Velký sáček na věci.", sentence: "Pytel je plný brambor." },
+            { word: "pysk", hl: "y", emoji: "👄", note: "Ret u zvířete.", sentence: "Kůň má měkké pysky." },
+            { word: "netopýr", hl: "ý", emoji: "🦇", note: "Létá v noci, spí přes den.", sentence: "Netopýr visí hlavou dolů." },
+            { word: "slepýš", hl: "ý", emoji: "🦎", note: "Beznohá ještěrka, ne had.", sentence: "Slepýš se schoval v trávě." },
+            { word: "pyl", hl: "y", emoji: "🌼", note: "Žlutý prášek z květů.", sentence: "Včely sbírají pyl." },
+            { word: "kopyto", hl: "y", emoji: "🐴", note: "Tvrdá noha koně.", sentence: "Kůň má na noze kopyto." },
+            { word: "klopýtat", hl: "ý", emoji: "🤸", note: "Zakopávat při chůzi.", sentence: "Ve tmě začal klopýtat." },
+            { word: "třpytit se", hl: "y", emoji: "✨", note: "Krásně se lesknout.", sentence: "Hvězdy se třpytí na nebi." },
+            { word: "zpytovat", hl: "y", emoji: "🧐", note: "Zkoumat, přemýšlet.", sentence: "Musíš zpytovat svědomí." },
+            { word: "pykat", hl: "y", emoji: "⛓️", note: "Nést trest za chybu.", sentence: "Za lež musel pykat." },
+            { word: "pýr", hl: "ý", emoji: "🌾", note: "Plevel s dlouhými kořeny.", sentence: "Na poli roste pýr." },
+            { word: "pýřit se", hl: "ý", emoji: "😳", note: "Červenat se studem.", sentence: "Začala se pýřit." },
+            { word: "čepýřit se", hl: "ý", emoji: "🐓", note: "Načechrávat si peří.", sentence: "Kohout se čepýří." }
+          ]
+        },
+        {
+          id: "vyjm-s", name: "Vyjmenovaná slova po S", icon: "🇸", type: "vyjm",
+          cards: [
+            { word: "syn", hl: "y", emoji: "👦", note: "Chlapec svých rodičů.", sentence: "Je to syn paní učitelky." },
+            { word: "sytý", hl: "y", emoji: "😋", note: "Když už nemám hlad.", sentence: "Po obědě jsem sytý." },
+            { word: "sýr", hl: "ý", emoji: "🧀", note: "Jídlo z mléka.", sentence: "Mám rád tavený sýr." },
+            { word: "syrový", hl: "y", emoji: "🥩", note: "Tepelně neupravený.", sentence: "Syrové maso se nejí." },
+            { word: "sychravý", hl: "y", emoji: "🌫️", note: "Chladný a vlhký.", sentence: "Venku je sychravý den." },
+            { word: "usychat", hl: "y", emoji: "🥀", note: "Pomalu vadnout.", sentence: "Kytka bez vody usychá." },
+            { word: "sýkora", hl: "ý", emoji: "🐦", note: "Malý zpěvný ptáček.", sentence: "Sýkora sedí na krmítku." },
+            { word: "sysel", hl: "y", emoji: "🐿️", note: "Hlodavec žijící v norách.", sentence: "Sysel se schoval do nory." },
+            { word: "syčet", hl: "y", emoji: "🐍", note: "Dělat zvuk jako had.", sentence: "Had začal syčet." },
+            { word: "sypat", hl: "y", emoji: "🧂", note: "Nechat něco padat.", sentence: "Nesyp drobky na zem." }
+          ]
+        },
+        {
+          id: "vyjm-v", name: "Vyjmenovaná slova po V", icon: "🇻", type: "vyjm",
+          cards: [
+            { word: "vy", hl: "y", emoji: "🫵", note: "Já mluvím k víc lidem.", sentence: "Vy jste šikovní." },
+            { word: "vysoký", hl: "y", emoji: "⛰️", note: "Sahá hodně nahoru.", sentence: "Strom je moc vysoký." },
+            { word: "výt", hl: "ý", emoji: "🐺", note: "Vydávat táhlý zvuk jako vlk.", sentence: "V noci je slyšet vlka výt." },
+            { word: "výskat", hl: "ý", emoji: "🙌", note: "Radostně křičet.", sentence: "Děti výskají radostí." },
+            { word: "zvykat", hl: "y", emoji: "🔁", note: "Pomalu si na něco navykat.", sentence: "Musíš si zvykat na školu." },
+            { word: "žvýkat", hl: "ý", emoji: "🍬", note: "Kousat jídlo v puse.", sentence: "Nesmíš žvýkat s otevřenou pusou." },
+            { word: "vydra", hl: "y", emoji: "🦦", note: "Zvíře, které plave v řece.", sentence: "Vydra loví ryby." },
+            { word: "výr", hl: "ý", emoji: "🦉", note: "Velká sova.", sentence: "Výr houká v noci." },
+            { word: "vyžle", hl: "y", emoji: "🐕", note: "Hubené štíhlé zvíře.", sentence: "Ten pejsek je hotové vyžle." },
+            { word: "povyk", hl: "y", emoji: "📣", note: "Velký hluk a křik.", sentence: "Ve třídě byl velký povyk." },
+            { word: "výheň", hl: "ý", emoji: "🔥", note: "Ohniště u kováře.", sentence: "Kovář rozpálil výheň." },
+            { word: "výlet", hl: "ý", emoji: "🎒", note: "Slova s předponou vy-/vý- píšeme tvrdě.", sentence: "Jedeme na výlet." }
+          ]
+        },
+        {
+          id: "vyjm-z", name: "Vyjmenovaná slova po Z", icon: "🇿", type: "vyjm",
+          cards: [
+            { word: "brzy", hl: "y", emoji: "⏰", note: "Za krátkou dobu.", sentence: "Přijď zpátky brzy." },
+            { word: "jazyk", hl: "y", emoji: "👅", note: "Sval v puse, i řeč.", sentence: "Učím se anglický jazyk." },
+            { word: "nazývat se", hl: "ý", emoji: "🗣️", note: "Mít nějaké jméno.", sentence: "Ta hra se nazývá honička." },
+            { word: "Ruzyně", hl: "y", emoji: "✈️", note: "Místo, kde je letiště.", sentence: "Letadlo přistálo v Ruzyni." }
+          ]
+        },
+        {
+          id: "zs", name: "Ž nebo Š – jak to poznat", icon: "📘", type: "zs",
+          intro: "Písmena Ž a Š jsou si podobná, ale patří do jiných slov. Při porovnávání (nízký → nižší) si vždy řekni celé slovo nahlas. 🧠",
+          bank: ["vyšší", "nižší", "bližší", "dražší", "tišší", "těžší", "lehčí", "menší", "delší", "užší"],
+          base: [
+            ["nízký", "nižší"], ["vysoký", "vyšší"], ["blízký", "bližší"], ["drahý", "dražší"], ["tichý", "tišší"],
+            ["těžký", "těžší"], ["dlouhý", "delší"], ["úzký", "užší"], ["malý", "menší"], ["lehký", "lehčí"]
+          ],
+          sent: [
+            ["Žirafa je ___ než pes.", "vyšší"],
+            ["Malá židle je ___ než stůl.", "nižší"],
+            ["Plný batoh je ___ než prázdný.", "těžší"],
+            ["Pírko je ___ než kámen.", "lehčí"],
+            ["Šeptání je ___ než křik.", "tišší"],
+            ["Nové kolo je ___ než staré.", "dražší"],
+            ["Myš je ___ než kočka.", "menší"],
+            ["Tato cesta je ___ než ta druhá.", "delší"],
+            ["Tento chodník je ___ než silnice.", "užší"],
+            ["Tento obchod je ___ než ten na druhém konci města.", "bližší"]
+          ],
+          cards: [
+            { word: "žába", hl: "ž", emoji: "🐸", note: "Skáče u vody.", sentence: "Žába skáče do rybníka." },
+            { word: "židle", hl: "ž", emoji: "🪑", note: "Sedíme na ní.", sentence: "Sedni si na židli." },
+            { word: "žlutý", hl: "ž", emoji: "🟡", note: "Barva jako slunce.", sentence: "Banán je žlutý." },
+            { word: "žirafa", hl: "ž", emoji: "🦒", note: "Zvíře s dlouhým krkem.", sentence: "Žirafa je vysoká." },
+            { word: "škola", hl: "š", emoji: "🏫", note: "Chodíme se sem učit.", sentence: "Ráno jdu do školy." },
+            { word: "šála", hl: "š", emoji: "🧣", note: "Nosíme ji na krku v zimě.", sentence: "Vezmi si teplou šálu." },
+            { word: "švestka", hl: "š", emoji: "🫐", note: "Modré sladké ovoce.", sentence: "Snědl jsem švestku." },
+            { word: "šípek", hl: "š", emoji: "🌹", note: "Červený plod šípkové růže.", sentence: "Z šípků vaříme čaj." },
+            { word: "nižší", hl: "ž", emoji: "📏", note: "nízký → nižší", sentence: "Židle je nižší než stůl." },
+            { word: "vyšší", hl: "š", emoji: "📐", note: "vysoký → vyšší", sentence: "Žirafa je vyšší než pes." },
+            { word: "bližší", hl: "ž", emoji: "📍", note: "blízký → bližší", sentence: "Náš dům je škole bližší." },
+            { word: "dražší", hl: "ž", emoji: "💰", note: "drahý → dražší", sentence: "Nové kolo je dražší." },
+            { word: "tišší", hl: "š", emoji: "🤫", note: "tichý → tišší", sentence: "Šepot je tišší než křik." },
+            { word: "těžší", hl: "ž", emoji: "🏋️", note: "těžký → těžší", sentence: "Plný batoh je těžší." }
+          ]
+        },
+        { id: "tvrde-mekke", name: "Tvrdé a měkké souhlásky", icon: "🔤", type: "soon", cards: [] },
+        { id: "druhy-slov",  name: "Druhy slov",              icon: "🧩", type: "soon", cards: [] },
+        { id: "podst-jmena", name: "Podstatná jména",         icon: "🏷️", type: "soon", cards: [] },
+        { id: "slovesa-cj",  name: "Slovesa",                 icon: "🏃", type: "soon", cards: [] },
+        { id: "pady",        name: "Pády",                    icon: "7️⃣", type: "soon", cards: [] },
+        { id: "abeceda",     name: "Abeceda",                 icon: "🔡", type: "soon", cards: [] }
+      ]
+    },
+
+    {
+      id: "ma",
+      name: "Matematika",
+      short: "Matika",
+      color: "#00e5ff",
+      color2: "#57f0ff",
+      icon: "🔢",
+      topics: [
+        { id: "nas-2",  name: "Násobilka 2",  icon: "2️⃣", type: "times", factor: 2 },
+        { id: "nas-3",  name: "Násobilka 3",  icon: "3️⃣", type: "times", factor: 3 },
+        { id: "nas-4",  name: "Násobilka 4",  icon: "4️⃣", type: "times", factor: 4 },
+        { id: "nas-5",  name: "Násobilka 5",  icon: "5️⃣", type: "times", factor: 5 },
+        { id: "nas-6",  name: "Násobilka 6",  icon: "6️⃣", type: "times", factor: 6 },
+        { id: "nas-7",  name: "Násobilka 7",  icon: "7️⃣", type: "times", factor: 7 },
+        { id: "nas-8",  name: "Násobilka 8",  icon: "8️⃣", type: "times", factor: 8 },
+        { id: "nas-9",  name: "Násobilka 9",  icon: "9️⃣", type: "times", factor: 9 },
+        { id: "nas-10", name: "Násobilka 10", icon: "🔟", type: "times", factor: 10 },
+        { id: "scitani", name: "Sčítání a odčítání", icon: "➕", type: "arith" },
+        { id: "pisemne",  name: "Písemné počítání",  icon: "✍️", type: "soon", cards: [] },
+        {
+          id: "jed-delky", name: "Jednotky délky", icon: "📏", type: "units",
+          intro: "Délku měříme v jednotkách. Pamatuj: 1 cm = 10 mm, 1 dm = 10 cm, 1 m = 100 cm, 1 km = 1000 m. 📏",
+          cards: [
+            { word: "milimetr – mm", emoji: "📏", note: "Nejmenší běžná jednotka. 1 cm = 10 mm.", sentence: "Mince je silná asi 2 mm." },
+            { word: "centimetr – cm", emoji: "📐", note: "1 cm = 10 mm.", sentence: "Guma měří asi 4 cm." },
+            { word: "decimetr – dm", emoji: "📏", note: "1 dm = 10 cm.", sentence: "Sešit je široký asi 2 dm." },
+            { word: "metr – m", emoji: "📐", note: "Základní jednotka. 1 m = 100 cm.", sentence: "Dveře jsou vysoké asi 2 m." },
+            { word: "kilometr – km", emoji: "🛣️", note: "Největší běžná jednotka. 1 km = 1000 m.", sentence: "Do školy jdu asi 1 km." },
+            { word: "1 cm = 10 mm", emoji: "🔟", note: "Centimetr má deset milimetrů.", sentence: "10 mm = 1 cm." },
+            { word: "1 m = 100 cm", emoji: "💯", note: "Metr má sto centimetrů.", sentence: "100 cm = 1 m." },
+            { word: "1 km = 1000 m", emoji: "🏁", note: "Kilometr má tisíc metrů.", sentence: "1000 m = 1 km." }
+          ]
+        },
+        { id: "jed-casu", name: "Jednotky času",     icon: "🕐", type: "soon", cards: [] },
+        { id: "geometrie",name: "Geometrické tvary", icon: "🔺", type: "soon", cards: [] },
+        { id: "slovni",   name: "Slovní úlohy",      icon: "📖", type: "soon", cards: [] }
+      ]
+    },
+
+    {
+      id: "aj",
+      name: "Angličtina",
+      short: "Angličtina",
+      color: "#39ff14",
+      color2: "#7bff5a",
+      icon: "🌍",
+      topics: [
+        {
+          id: "cisla", name: "Čísla", icon: "🔢", type: "vocab",
+          cards: [
+            { en: "one", cs: "jedna", emoji: "1️⃣", sentence: "I have one dog.", scs: "Mám jednoho psa." },
+            { en: "two", cs: "dva", emoji: "2️⃣", sentence: "I see two cats.", scs: "Vidím dvě kočky." },
+            { en: "three", cs: "tři", emoji: "3️⃣", sentence: "There are three balls.", scs: "Jsou tam tři míče." },
+            { en: "four", cs: "čtyři", emoji: "4️⃣", sentence: "I have four apples.", scs: "Mám čtyři jablka." },
+            { en: "five", cs: "pět", emoji: "5️⃣", sentence: "I have five fingers.", scs: "Mám pět prstů." },
+            { en: "six", cs: "šest", emoji: "6️⃣", sentence: "There are six eggs.", scs: "Je tam šest vajec." },
+            { en: "seven", cs: "sedm", emoji: "7️⃣", sentence: "A week has seven days.", scs: "Týden má sedm dní." },
+            { en: "eight", cs: "osm", emoji: "8️⃣", sentence: "A spider has eight legs.", scs: "Pavouk má osm nohou." },
+            { en: "nine", cs: "devět", emoji: "9️⃣", sentence: "I can see nine stars.", scs: "Vidím devět hvězd." },
+            { en: "ten", cs: "deset", emoji: "🔟", sentence: "I have ten toes.", scs: "Mám deset prstů u nohou." }
+          ]
+        },
+        {
+          id: "barvy", name: "Barvy", icon: "🎨", type: "vocab",
+          cards: [
+            { en: "red", cs: "červená", emoji: "🔴", sentence: "The apple is red.", scs: "Jablko je červené." },
+            { en: "blue", cs: "modrá", emoji: "🔵", sentence: "The sky is blue.", scs: "Obloha je modrá." },
+            { en: "green", cs: "zelená", emoji: "🟢", sentence: "The grass is green.", scs: "Tráva je zelená." },
+            { en: "yellow", cs: "žlutá", emoji: "🟡", sentence: "The sun is yellow.", scs: "Slunce je žluté." },
+            { en: "orange", cs: "oranžová", emoji: "🟠", sentence: "The ball is orange.", scs: "Míč je oranžový." },
+            { en: "purple", cs: "fialová", emoji: "🟣", sentence: "The grapes are purple.", scs: "Hrozny jsou fialové." },
+            { en: "black", cs: "černá", emoji: "⚫", sentence: "The cat is black.", scs: "Kočka je černá." },
+            { en: "white", cs: "bílá", emoji: "⚪", sentence: "The snow is white.", scs: "Sníh je bílý." },
+            { en: "brown", cs: "hnědá", emoji: "🟤", sentence: "The bear is brown.", scs: "Medvěd je hnědý." },
+            { en: "pink", cs: "růžová", emoji: "🌸", sentence: "The flower is pink.", scs: "Květina je růžová." }
+          ]
+        },
+        {
+          id: "zvirata", name: "Zvířata", icon: "🐾", type: "vocab",
+          cards: [
+            { en: "dog", cs: "pes", emoji: "🐶", sentence: "The dog is happy.", scs: "Pes je šťastný." },
+            { en: "cat", cs: "kočka", emoji: "🐱", sentence: "The cat sleeps.", scs: "Kočka spí." },
+            { en: "cow", cs: "kráva", emoji: "🐮", sentence: "The cow eats grass.", scs: "Kráva žere trávu." },
+            { en: "horse", cs: "kůň", emoji: "🐴", sentence: "The horse runs fast.", scs: "Kůň běží rychle." },
+            { en: "pig", cs: "prase", emoji: "🐷", sentence: "The pig is pink.", scs: "Prase je růžové." },
+            { en: "sheep", cs: "ovce", emoji: "🐑", sentence: "The sheep is white.", scs: "Ovce je bílá." },
+            { en: "duck", cs: "kachna", emoji: "🦆", sentence: "The duck swims.", scs: "Kachna plave." },
+            { en: "fish", cs: "ryba", emoji: "🐟", sentence: "The fish is small.", scs: "Ryba je malá." },
+            { en: "bird", cs: "pták", emoji: "🐦", sentence: "The bird can fly.", scs: "Pták umí létat." },
+            { en: "frog", cs: "žába", emoji: "🐸", sentence: "The frog jumps.", scs: "Žába skáče." }
+          ]
+        },
+        {
+          id: "rodina", name: "Rodina", icon: "👨‍👩‍👧", type: "vocab",
+          cards: [
+            { en: "mother", cs: "máma", emoji: "👩", sentence: "My mother is kind.", scs: "Moje máma je hodná." },
+            { en: "father", cs: "táta", emoji: "👨", sentence: "My father is tall.", scs: "Můj táta je vysoký." },
+            { en: "sister", cs: "sestra", emoji: "👧", sentence: "I have a sister.", scs: "Mám sestru." },
+            { en: "brother", cs: "bratr", emoji: "👦", sentence: "My brother plays.", scs: "Můj bratr si hraje." },
+            { en: "baby", cs: "miminko", emoji: "👶", sentence: "The baby sleeps.", scs: "Miminko spí." },
+            { en: "grandma", cs: "babička", emoji: "👵", sentence: "My grandma bakes.", scs: "Moje babička peče." },
+            { en: "grandpa", cs: "dědeček", emoji: "👴", sentence: "My grandpa reads.", scs: "Můj dědeček čte." },
+            { en: "family", cs: "rodina", emoji: "👨‍👩‍👧‍👦", sentence: "I love my family.", scs: "Mám rád svoji rodinu." }
+          ]
+        },
+        {
+          id: "skola", name: "Škola", icon: "🏫", type: "vocab",
+          cards: [
+            { en: "school", cs: "škola", emoji: "🏫", sentence: "I go to school.", scs: "Chodím do školy." },
+            { en: "book", cs: "kniha", emoji: "📖", sentence: "I read a book.", scs: "Čtu knihu." },
+            { en: "pen", cs: "pero", emoji: "🖊️", sentence: "This is my pen.", scs: "Tohle je moje pero." },
+            { en: "pencil", cs: "tužka", emoji: "✏️", sentence: "I write with a pencil.", scs: "Píšu tužkou." },
+            { en: "bag", cs: "taška", emoji: "🎒", sentence: "My bag is heavy.", scs: "Moje taška je těžká." },
+            { en: "teacher", cs: "učitel", emoji: "🧑‍🏫", sentence: "The teacher is nice.", scs: "Učitel je milý." },
+            { en: "desk", cs: "lavice", emoji: "🪑", sentence: "I sit at my desk.", scs: "Sedím v lavici." },
+            { en: "ruler", cs: "pravítko", emoji: "📏", sentence: "I use a ruler.", scs: "Používám pravítko." }
+          ]
+        },
+        {
+          id: "dny", name: "Dny v týdnu", icon: "📅", type: "vocab",
+          cards: [
+            { en: "Monday", cs: "pondělí", emoji: "1️⃣", sentence: "School starts on Monday.", scs: "Škola začíná v pondělí." },
+            { en: "Tuesday", cs: "úterý", emoji: "2️⃣", sentence: "We swim on Tuesday.", scs: "V úterý plaveme." },
+            { en: "Wednesday", cs: "středa", emoji: "3️⃣", sentence: "Art is on Wednesday.", scs: "Výtvarka je ve středu." },
+            { en: "Thursday", cs: "čtvrtek", emoji: "4️⃣", sentence: "We play on Thursday.", scs: "Ve čtvrtek si hrajeme." },
+            { en: "Friday", cs: "pátek", emoji: "5️⃣", sentence: "Friday is fun.", scs: "Pátek je zábava." },
+            { en: "Saturday", cs: "sobota", emoji: "🎉", sentence: "We rest on Saturday.", scs: "V sobotu odpočíváme." },
+            { en: "Sunday", cs: "neděle", emoji: "☀️", sentence: "Sunday is calm.", scs: "Neděle je klidná." }
+          ]
+        },
+        {
+          id: "mesice", name: "Měsíce", icon: "🗓️", type: "vocab",
+          cards: [
+            { en: "January", cs: "leden", emoji: "❄️", sentence: "January is cold.", scs: "Leden je studený." },
+            { en: "February", cs: "únor", emoji: "⛄", sentence: "February is short.", scs: "Únor je krátký." },
+            { en: "March", cs: "březen", emoji: "🌱", sentence: "March brings spring.", scs: "Březen přináší jaro." },
+            { en: "April", cs: "duben", emoji: "🌧️", sentence: "April is rainy.", scs: "Duben je deštivý." },
+            { en: "May", cs: "květen", emoji: "🌷", sentence: "May has flowers.", scs: "Květen má květiny." },
+            { en: "June", cs: "červen", emoji: "☀️", sentence: "June is warm.", scs: "Červen je teplý." },
+            { en: "July", cs: "červenec", emoji: "🏖️", sentence: "July is hot.", scs: "Červenec je horký." },
+            { en: "August", cs: "srpen", emoji: "🌻", sentence: "August is sunny.", scs: "Srpen je slunečný." },
+            { en: "September", cs: "září", emoji: "🍂", sentence: "September starts school.", scs: "V září začíná škola." },
+            { en: "October", cs: "říjen", emoji: "🎃", sentence: "October has leaves.", scs: "Říjen má listí." },
+            { en: "November", cs: "listopad", emoji: "🌫️", sentence: "November is foggy.", scs: "Listopad je mlhavý." },
+            { en: "December", cs: "prosinec", emoji: "🎄", sentence: "December has snow.", scs: "V prosinci je sníh." }
+          ]
+        },
+        {
+          id: "telo", name: "Tělo", icon: "🧍", type: "vocab",
+          cards: [
+            { en: "head", cs: "hlava", emoji: "🗣️", sentence: "Touch your head.", scs: "Dotkni se hlavy." },
+            { en: "hand", cs: "ruka", emoji: "✋", sentence: "Raise your hand.", scs: "Zvedni ruku." },
+            { en: "leg", cs: "noha", emoji: "🦵", sentence: "My leg is strong.", scs: "Moje noha je silná." },
+            { en: "eye", cs: "oko", emoji: "👁️", sentence: "Close your eye.", scs: "Zavři oko." },
+            { en: "ear", cs: "ucho", emoji: "👂", sentence: "This is my ear.", scs: "Tohle je moje ucho." },
+            { en: "nose", cs: "nos", emoji: "👃", sentence: "I smell with my nose.", scs: "Čichám nosem." },
+            { en: "mouth", cs: "pusa", emoji: "👄", sentence: "Open your mouth.", scs: "Otevři pusu." },
+            { en: "hair", cs: "vlasy", emoji: "💇", sentence: "My hair is long.", scs: "Moje vlasy jsou dlouhé." }
+          ]
+        },
+        {
+          id: "jidlo", name: "Jídlo", icon: "🍎", type: "vocab",
+          cards: [
+            { en: "apple", cs: "jablko", emoji: "🍎", sentence: "I eat an apple.", scs: "Jím jablko." },
+            { en: "bread", cs: "chléb", emoji: "🍞", sentence: "I like bread.", scs: "Mám rád chléb." },
+            { en: "milk", cs: "mléko", emoji: "🥛", sentence: "I drink milk.", scs: "Piju mléko." },
+            { en: "cheese", cs: "sýr", emoji: "🧀", sentence: "The cheese is yellow.", scs: "Sýr je žlutý." },
+            { en: "egg", cs: "vejce", emoji: "🥚", sentence: "I have one egg.", scs: "Mám jedno vejce." },
+            { en: "banana", cs: "banán", emoji: "🍌", sentence: "The banana is yellow.", scs: "Banán je žlutý." },
+            { en: "water", cs: "voda", emoji: "💧", sentence: "Water is good.", scs: "Voda je dobrá." },
+            { en: "cake", cs: "dort", emoji: "🍰", sentence: "The cake is sweet.", scs: "Dort je sladký." }
+          ]
+        },
+        {
+          id: "obleceni", name: "Oblečení", icon: "👕", type: "vocab",
+          cards: [
+            { en: "shirt", cs: "tričko", emoji: "👕", sentence: "My shirt is blue.", scs: "Moje tričko je modré." },
+            { en: "trousers", cs: "kalhoty", emoji: "👖", sentence: "I wear trousers.", scs: "Nosím kalhoty." },
+            { en: "shoes", cs: "boty", emoji: "👟", sentence: "My shoes are new.", scs: "Moje boty jsou nové." },
+            { en: "hat", cs: "čepice", emoji: "🧢", sentence: "I have a hat.", scs: "Mám čepici." },
+            { en: "jacket", cs: "bunda", emoji: "🧥", sentence: "The jacket is warm.", scs: "Bunda je teplá." },
+            { en: "dress", cs: "šaty", emoji: "👗", sentence: "Her dress is red.", scs: "Její šaty jsou červené." },
+            { en: "socks", cs: "ponožky", emoji: "🧦", sentence: "My socks are white.", scs: "Moje ponožky jsou bílé." },
+            { en: "gloves", cs: "rukavice", emoji: "🧤", sentence: "I wear gloves.", scs: "Nosím rukavice." }
+          ]
+        },
+        {
+          id: "pocasi", name: "Počasí", icon: "🌦️", type: "vocab",
+          cards: [
+            { en: "sun", cs: "slunce", emoji: "☀️", sentence: "The sun is hot.", scs: "Slunce je horké." },
+            { en: "rain", cs: "déšť", emoji: "🌧️", sentence: "I like the rain.", scs: "Mám rád déšť." },
+            { en: "snow", cs: "sníh", emoji: "❄️", sentence: "The snow is white.", scs: "Sníh je bílý." },
+            { en: "wind", cs: "vítr", emoji: "💨", sentence: "The wind is cold.", scs: "Vítr je studený." },
+            { en: "cloud", cs: "mrak", emoji: "☁️", sentence: "One cloud in the sky.", scs: "Jeden mrak na obloze." },
+            { en: "storm", cs: "bouřka", emoji: "⛈️", sentence: "The storm is loud.", scs: "Bouřka je hlučná." },
+            { en: "rainbow", cs: "duha", emoji: "🌈", sentence: "I see a rainbow.", scs: "Vidím duhu." },
+            { en: "hot", cs: "horko", emoji: "🥵", sentence: "It is hot today.", scs: "Dnes je horko." }
+          ]
+        },
+        {
+          id: "slovesa-aj", name: "Základní slovesa", icon: "🏃", type: "vocab",
+          cards: [
+            { en: "go", cs: "jít", emoji: "🚶", sentence: "Let us go home.", scs: "Pojďme domů." },
+            { en: "run", cs: "běžet", emoji: "🏃", sentence: "I can run fast.", scs: "Umím běžet rychle." },
+            { en: "eat", cs: "jíst", emoji: "🍽️", sentence: "I eat lunch.", scs: "Jím oběd." },
+            { en: "drink", cs: "pít", emoji: "🥤", sentence: "I drink water.", scs: "Piju vodu." },
+            { en: "sleep", cs: "spát", emoji: "😴", sentence: "I sleep at night.", scs: "Spím v noci." },
+            { en: "play", cs: "hrát si", emoji: "⚽", sentence: "I play football.", scs: "Hraju fotbal." },
+            { en: "read", cs: "číst", emoji: "📖", sentence: "I read a book.", scs: "Čtu knihu." },
+            { en: "write", cs: "psát", emoji: "✍️", sentence: "I write my name.", scs: "Píšu své jméno." },
+            { en: "sing", cs: "zpívat", emoji: "🎤", sentence: "I sing a song.", scs: "Zpívám písničku." },
+            { en: "jump", cs: "skákat", emoji: "🤸", sentence: "I jump high.", scs: "Skáču vysoko." }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+/* Pomocné funkce pro hledání */
+DATA.findSubject = (sid) => DATA.subjects.find((s) => s.id === sid);
+DATA.findTopic = (sid, tid) => {
+  const s = DATA.findSubject(sid);
+  return s ? s.topics.find((t) => t.id === tid) : null;
+};

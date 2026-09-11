@@ -1,0 +1,494 @@
+/* ==========================================================================
+   MartyStudy – styly (mobile-first, neonové téma)
+   ========================================================================== */
+
+:root {
+  --bg: #0d0d14;
+  --bg2: #14141f;
+  --card: #1b1b2a;
+  --card2: #22223a;
+  --text: #eef0ff;
+  --muted: #9aa0c0;
+  --line: rgba(255, 255, 255, 0.08);
+
+  --purple: #b026ff;
+  --blue: #00e5ff;
+  --teal: #1de9b6;
+  --green: #39ff14;
+  --orange: #ff9800;
+  --pink: #ff4fd8;
+
+  --ok: #39ff14;
+  --bad: #ff5a7a;
+
+  --r: 22px;
+  --nav-h: 74px;
+  --font: "Nunito", "Baloo 2", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  overscroll-behavior-y: none;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(176, 38, 255, 0.18), transparent 60%),
+    radial-gradient(1000px 500px at 110% 10%, rgba(0, 229, 255, 0.16), transparent 55%),
+    radial-gradient(900px 500px at 50% 120%, rgba(57, 255, 20, 0.10), transparent 60%),
+    var(--bg);
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 18px 16px calc(var(--nav-h) + 28px);
+  min-height: 100vh;
+  animation: fade 0.25s ease;
+}
+
+@keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Typografie & obecné ---------- */
+h1, h2, h3 { margin: 0; line-height: 1.1; }
+p { line-height: 1.4; }
+
+.title-xl {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, var(--purple), var(--blue) 55%, var(--green));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.35));
+}
+
+.subtitle { color: var(--muted); font-size: 16px; font-weight: 700; margin-top: 6px; }
+
+.section-h {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 20px; font-weight: 900; margin: 26px 0 12px;
+}
+.section-h .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: 0 0 12px currentColor; }
+
+/* ---------- Hlavička obrazovky ---------- */
+.topbar { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.backbtn {
+  border: none; cursor: pointer;
+  width: 46px; height: 46px; border-radius: 14px;
+  background: var(--card); color: var(--text);
+  font-size: 22px; display: grid; place-items: center;
+  border: 1px solid var(--line);
+  transition: transform 0.1s ease, background 0.2s;
+}
+.backbtn:active { transform: scale(0.9); }
+.topbar h2 { font-size: 24px; font-weight: 900; }
+
+/* ---------- Karty předmětů (dlaždice) ---------- */
+.tiles { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 520px) { .tiles { grid-template-columns: 1fr 1fr; } }
+
+.tile {
+  position: relative; overflow: hidden; cursor: pointer;
+  border: none; text-align: left;
+  padding: 22px; border-radius: var(--r);
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  color: var(--text);
+  border: 1px solid var(--line);
+  display: flex; align-items: center; gap: 16px;
+  transition: transform 0.12s ease, box-shadow 0.2s;
+}
+.tile::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 100% 0%, var(--accent, var(--purple)), transparent 45%);
+  opacity: 0.28;
+}
+.tile:active { transform: scale(0.97); }
+.tile:hover { box-shadow: 0 0 0 2px var(--accent, var(--purple)), 0 0 26px -6px var(--accent, var(--purple)); }
+.tile .emoji {
+  font-size: 42px; line-height: 1; z-index: 1;
+  filter: drop-shadow(0 0 10px var(--accent, var(--purple)));
+}
+.tile .t-txt { z-index: 1; }
+.tile .t-name { font-size: 22px; font-weight: 900; }
+.tile .t-sub { color: var(--muted); font-size: 14px; font-weight: 700; margin-top: 2px; }
+.tile .t-arrow { margin-left: auto; z-index: 1; font-size: 24px; color: var(--accent, var(--purple)); }
+
+/* ---------- Seznam témat ---------- */
+.topic-list { display: grid; gap: 10px; }
+.topic {
+  display: flex; align-items: center; gap: 14px; cursor: pointer;
+  padding: 16px 18px; border-radius: 18px; text-align: left;
+  background: var(--card); color: var(--text); border: 1px solid var(--line);
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+.topic:active { transform: scale(0.98); }
+.topic:hover { box-shadow: 0 0 0 2px var(--accent), 0 0 20px -8px var(--accent); }
+.topic .ic { font-size: 26px; }
+.topic .nm { font-weight: 800; font-size: 17px; }
+.topic .meta { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.badge-soon {
+  font-size: 11px; font-weight: 800; padding: 4px 9px; border-radius: 999px;
+  background: rgba(255, 152, 0, 0.15); color: var(--orange); border: 1px solid rgba(255,152,0,0.35);
+}
+.progress-pill {
+  font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px;
+  background: rgba(57, 255, 20, 0.12); color: var(--green); border: 1px solid rgba(57,255,20,0.3);
+}
+
+/* ---------- Progress bar ---------- */
+.progress-wrap {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 18px; padding: 16px 18px; margin-top: 14px;
+}
+.progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.progress-top .big { font-size: 26px; font-weight: 900; color: var(--green); }
+.bar { height: 14px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.bar > span {
+  display: block; height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  box-shadow: 0 0 14px rgba(57,255,20,0.6);
+  transition: width 0.5s ease;
+}
+
+/* ---------- Tlačítka ---------- */
+.btn {
+  border: none; cursor: pointer; font-family: var(--font);
+  font-weight: 900; font-size: 18px;
+  padding: 16px 20px; border-radius: 16px; width: 100%;
+  color: #0d0d14;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  box-shadow: 0 8px 22px -8px rgba(0,229,255,0.7);
+  transition: transform 0.1s ease, filter 0.2s;
+}
+.btn:active { transform: scale(0.97); }
+.btn.secondary {
+  background: var(--card2); color: var(--text); border: 1px solid var(--line);
+  box-shadow: none;
+}
+.btn.purple { background: linear-gradient(90deg, var(--purple), var(--pink)); color: #fff; }
+.btn.small { width: auto; font-size: 15px; padding: 12px 16px; }
+.btn.ghost { background: transparent; border: 2px solid var(--accent, var(--blue)); color: var(--text); box-shadow: none; }
+.btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.btn-row .btn { flex: 1; min-width: 140px; }
+
+/* Efekt „pop" při kliknutí */
+.pop { animation: pop 0.3s ease; }
+@keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(0.92); } 100% { transform: scale(1); } }
+
+/* ---------- Kartička učiva ---------- */
+.flashwrap { display: grid; gap: 16px; }
+.flash {
+  position: relative; overflow: hidden;
+  border-radius: var(--r); padding: 26px 22px 22px;
+  background: linear-gradient(160deg, var(--card2), var(--card));
+  border: 1px solid var(--line);
+  text-align: center;
+}
+.flash::after {
+  content: ""; position: absolute; inset: -1px;
+  border-radius: var(--r); padding: 1px; pointer-events: none;
+  background: linear-gradient(135deg, var(--accent), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.6;
+}
+.flash .big-emoji {
+  font-size: 78px; line-height: 1; margin-bottom: 8px;
+  filter: drop-shadow(0 0 18px var(--accent));
+  display: inline-block;
+}
+.flash .word {
+  font-size: 38px; font-weight: 900; margin: 4px 0;
+}
+.flash .word .hl {
+  color: var(--orange);
+  text-shadow: 0 0 16px rgba(255,152,0,0.8);
+  padding: 0 1px;
+}
+.flash .en { font-size: 34px; font-weight: 900; color: var(--blue); text-shadow: 0 0 14px rgba(0,229,255,0.5); }
+.flash .cs-under { font-size: 22px; font-weight: 800; color: var(--text); margin-top: 2px; }
+.flash .note { color: var(--muted); font-weight: 700; margin: 10px 0 4px; font-size: 16px; }
+.flash .sentence { font-style: italic; color: var(--text); opacity: 0.95; font-size: 17px; font-weight: 700; }
+.flash .sentence-cs { color: var(--muted); font-weight: 700; font-size: 14px; margin-top: 3px; }
+.flash .card-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.iconbtn {
+  border: 1px solid var(--line); background: var(--card2); color: var(--text);
+  border-radius: 14px; padding: 12px 16px; font-weight: 800; font-size: 15px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px; transition: transform 0.1s, background 0.2s;
+}
+.iconbtn:active { transform: scale(0.94); }
+.iconbtn.fav-on { color: var(--orange); border-color: rgba(255,152,0,0.5); background: rgba(255,152,0,0.1); }
+.iconbtn.speak { color: var(--blue); }
+
+.counter { text-align: center; color: var(--muted); font-weight: 800; margin: 4px 0 2px; }
+
+/* ---------- Kvíz ---------- */
+.quiz-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.quiz-progress { flex: 1; margin: 0 12px; }
+.quiz-q {
+  background: linear-gradient(160deg, var(--card2), var(--card));
+  border: 1px solid var(--line); border-radius: var(--r);
+  padding: 24px 20px; text-align: center; margin-bottom: 16px;
+}
+.quiz-q .q-emoji { font-size: 72px; filter: drop-shadow(0 0 16px var(--accent)); }
+.quiz-q .q-text { font-size: 24px; font-weight: 900; margin-top: 8px; }
+.quiz-q .q-blank { color: var(--orange); text-shadow: 0 0 14px rgba(255,152,0,0.7); letter-spacing: 1px; }
+.quiz-q .q-sentence { display: inline-block; font-size: 20px; font-weight: 800; color: var(--blue); margin: 4px 0 2px; line-height: 1.4; }
+.quiz-q .q-hint { display: inline-block; color: var(--muted); font-weight: 700; font-size: 14px; }
+.options { display: grid; gap: 12px; }
+.options.two { grid-template-columns: 1fr 1fr; }
+.opt {
+  border: 2px solid var(--line); background: var(--card); color: var(--text);
+  border-radius: 16px; padding: 18px; font-size: 20px; font-weight: 900; cursor: pointer;
+  transition: transform 0.1s, border-color 0.2s, background 0.2s;
+}
+.opt .opt-emoji { font-size: 40px; display: block; }
+.opt:active { transform: scale(0.97); }
+.opt.correct { border-color: var(--ok); background: rgba(57,255,20,0.14); animation: goodpulse 0.5s ease; }
+.opt.wrong { border-color: var(--bad); background: rgba(255,90,122,0.14); animation: shake 0.4s ease; }
+.opt.dim { opacity: 0.45; }
+@keyframes goodpulse { 0% { box-shadow: 0 0 0 0 rgba(57,255,20,0.6);} 100% { box-shadow: 0 0 0 16px rgba(57,255,20,0);} }
+@keyframes shake { 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);} 60%{transform:translateX(-6px);} 80%{transform:translateX(6px);} }
+
+.feedback {
+  margin-top: 16px; border-radius: 18px; padding: 16px 18px; text-align: center;
+  font-weight: 800; font-size: 17px; animation: fade 0.25s ease;
+}
+.feedback.good { background: rgba(57,255,20,0.12); border: 1px solid rgba(57,255,20,0.4); color: var(--green); }
+.feedback.bad { background: rgba(255,90,122,0.10); border: 1px solid rgba(255,90,122,0.35); color: var(--bad); }
+.feedback .expl { display: block; color: var(--text); font-weight: 700; margin-top: 6px; font-size: 15px; }
+
+/* ---------- Výsledek kvízu ---------- */
+.result { text-align: center; padding-top: 10px; }
+.result .medal { font-size: 90px; filter: drop-shadow(0 0 22px var(--green)); }
+.result .score { font-size: 46px; font-weight: 900; margin: 6px 0; }
+.result .percent {
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.result .msg { color: var(--text); font-weight: 800; font-size: 18px; margin: 12px 0 4px; }
+
+/* ---------- Prázdný stav ---------- */
+.empty { text-align: center; padding: 40px 16px; color: var(--muted); }
+.empty .e-emoji { font-size: 64px; filter: drop-shadow(0 0 16px var(--purple)); }
+.empty .e-title { font-size: 20px; font-weight: 900; color: var(--text); margin: 10px 0 4px; }
+
+/* ---------- Karta „naposledy" ---------- */
+.recent {
+  display: flex; align-items: center; gap: 12px; cursor: pointer;
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-top: 10px;
+}
+.recent .r-ic { font-size: 30px; }
+.recent .r-arrow { margin-left: auto; font-size: 22px; color: var(--blue); }
+
+/* ---------- Rodičovská sekce / nastavení ---------- */
+.settings-link { text-align: center; margin-top: 30px; }
+.settings-link button {
+  background: none; border: none; color: var(--muted); font-family: var(--font);
+  font-weight: 800; cursor: pointer; font-size: 14px; text-decoration: underline;
+}
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.stat {
+  background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; text-align: center;
+}
+.stat .num { font-size: 30px; font-weight: 900; color: var(--blue); }
+.stat .lab { color: var(--muted); font-weight: 800; font-size: 13px; margin-top: 2px; }
+.list-lines { display: grid; gap: 8px; margin-top: 8px; }
+.line-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; font-weight: 700;
+}
+.line-item .v { color: var(--green); font-weight: 900; }
+.danger { background: linear-gradient(90deg, var(--bad), var(--orange)) !important; color: #fff !important; }
+
+/* ---------- Install banner ---------- */
+.install-banner {
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(145deg, rgba(176,38,255,0.18), rgba(0,229,255,0.12));
+  border: 1px solid rgba(0,229,255,0.35); border-radius: 18px; padding: 14px 16px; margin: 16px 0;
+}
+.install-banner .ib-txt { font-weight: 800; font-size: 14px; }
+.install-banner .ib-txt small { color: var(--muted); font-weight: 700; display: block; }
+
+/* ---------- Spodní navigace ---------- */
+.bottomnav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  height: calc(var(--nav-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  display: flex; justify-content: space-around; align-items: stretch;
+  background: rgba(13, 13, 20, 0.92);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.navbtn {
+  flex: 1; border: none; background: none; cursor: pointer; color: var(--muted);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  font-family: var(--font); font-weight: 800; padding: 8px 0; transition: color 0.2s, transform 0.1s;
+}
+.navbtn:active { transform: scale(0.9); }
+.navicon { font-size: 24px; transition: filter 0.2s, transform 0.2s; }
+.navlabel { font-size: 11px; }
+.navbtn.active { color: var(--text); }
+.navbtn.active .navicon { filter: drop-shadow(0 0 10px var(--blue)); transform: translateY(-2px) scale(1.12); }
+.navbtn.active .navlabel {
+  background: linear-gradient(90deg, var(--purple), var(--blue));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--nav-h) + 20px);
+  transform: translateX(-50%) translateY(20px);
+  background: var(--card2); color: var(--text); border: 1px solid var(--line);
+  padding: 12px 20px; border-radius: 999px; font-weight: 800; font-size: 15px;
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6); z-index: 100;
+  opacity: 0; transition: opacity 0.25s, transform 0.25s; pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- Lumi (kamarád na učení) ---------- */
+@keyframes lumi-bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
+
+/* Interaktivní gesta Lumiho */
+.lumi-card img, .lumi-hero img, .lumi-pop img { transform-origin: 50% 86%; }
+
+@keyframes lumi-wave {
+  0%, 100% { transform: rotate(0deg); }
+  12% { transform: rotate(-11deg); }
+  26% { transform: rotate(9deg); }
+  40% { transform: rotate(-9deg); }
+  54% { transform: rotate(7deg); }
+  68% { transform: rotate(-5deg); }
+  82% { transform: rotate(3deg); }
+}
+@keyframes lumi-jump {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  18% { transform: translateY(0) scale(1.07, 0.9); }
+  48% { transform: translateY(-42px) scale(0.95, 1.06); }
+  70% { transform: translateY(0) scale(1.06, 0.93); }
+  86% { transform: translateY(-8px) scale(1, 1); }
+}
+@keyframes lumi-cheer {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-16px) rotate(-7deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  72% { transform: translateY(-12px) rotate(7deg); }
+}
+@keyframes lumi-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.06); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+/* nepřetržité „žití" – jemné dýchání a houpání */
+@keyframes lumi-breathe {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-7px) scale(1.015, 0.99); }
+}
+@keyframes lumi-sway {
+  0%, 100% { transform: translateX(-5px) rotate(-1.6deg); }
+  50% { transform: translateX(5px) rotate(1.6deg); }
+}
+/* lidské mikropohyby */
+@keyframes lumi-nod {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  30% { transform: rotate(5deg) translateY(3px); }
+  60% { transform: rotate(-3deg) translateY(-2px); }
+}
+@keyframes lumi-look {
+  0%, 100% { transform: translateX(0) skewX(0) rotate(0); }
+  30% { transform: translateX(-7px) skewX(3.5deg) rotate(-2.5deg); }
+  65% { transform: translateX(6px) skewX(-3.5deg) rotate(2.5deg); }
+}
+@keyframes lumi-shift {
+  0%, 100% { transform: translateX(0) rotate(0) scaleY(1); }
+  50% { transform: translateX(6px) rotate(2.5deg) scaleY(0.98); }
+}
+@keyframes lumi-hop {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  40% { transform: translateY(-20px) scaleY(1.04); }
+  62% { transform: translateY(0) scale(1.05, 0.94); }
+}
+.l-fig.nod { animation: lumi-nod 0.85s ease both; }
+.l-fig.look { animation: lumi-look 1s ease-in-out both; }
+.l-fig.shift { animation: lumi-shift 0.9s ease-in-out both; }
+.l-fig.hop { animation: lumi-hop 0.7s ease both; }
+
+/* dvě třídy = přebijí základní poskakování */
+.l-fig.wave { animation: lumi-wave 1.3s ease-in-out both; }
+.l-fig.wave-loop { animation: lumi-wave 1.5s ease-in-out infinite; }
+.l-fig.jump { animation: lumi-jump 0.7s ease both; }
+.l-fig.cheer { animation: lumi-cheer 0.8s ease both; }
+.l-fig.spin { animation: lumi-spin 0.8s ease both; }
+
+.lumi-overlay {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 24px;
+  background: rgba(5, 5, 12, 0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  animation: fade 0.3s ease;
+}
+.lumi-card { max-width: 400px; width: 100%; text-align: center; }
+.lumi-card img {
+  width: 210px; height: auto; margin-bottom: -6px;
+  filter: drop-shadow(0 14px 34px rgba(0, 229, 255, 0.45));
+  animation: lumi-breathe 2.8s ease-in-out infinite;
+}
+.lumi-bubble {
+  position: relative; background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid rgba(0, 229, 255, 0.4); border-radius: 22px; padding: 18px 20px;
+  font-weight: 800; font-size: 19px; line-height: 1.4;
+  box-shadow: 0 0 34px -8px rgba(0, 229, 255, 0.55);
+}
+.lumi-bubble .hi {
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* Maskot na úvodní obrazovce */
+.lumi-hero {
+  display: flex; align-items: center; gap: 10px; margin: 14px 0 4px;
+  background: linear-gradient(145deg, rgba(0,229,255,0.08), rgba(176,38,255,0.06));
+  border: 1px solid var(--line); border-radius: 20px; padding: 10px 14px 10px 6px;
+}
+.lumi-hero .l-alive { display: inline-block; flex-shrink: 0; line-height: 0; margin-right: 8px; animation: lumi-sway 5.5s ease-in-out infinite; transform-origin: 50% 92%; }
+.lumi-hero img {
+  width: 96px; height: auto; cursor: pointer;
+  filter: drop-shadow(0 6px 16px rgba(0, 229, 255, 0.35));
+  animation: lumi-breathe 2.9s ease-in-out infinite;
+}
+.lumi-card .l-alive { display: inline-block; animation: lumi-sway 6s ease-in-out infinite; transform-origin: 50% 92%; }
+.lumi-pop .l-alive { display: inline-block; line-height: 0; }
+.lumi-hero .hello { font-weight: 800; font-size: 14px; line-height: 1.35; text-align: left; }
+
+/* Pochvala v rohu */
+.lumi-pop {
+  position: fixed; right: 12px; bottom: calc(var(--nav-h) + 16px); z-index: 120;
+  display: flex; align-items: flex-end; gap: 6px;
+  transform: translateY(150%); transition: transform 0.4s cubic-bezier(0.2, 1.3, 0.3, 1);
+  pointer-events: none;
+}
+.lumi-pop.show { transform: translateY(0); }
+.lumi-pop img { width: 90px; height: auto; filter: drop-shadow(0 6px 16px rgba(57, 255, 20, 0.45)); }
+.lumi-pop .say {
+  background: linear-gradient(145deg, var(--card2), var(--card));
+  border: 1px solid rgba(57, 255, 20, 0.45); border-radius: 16px 16px 4px 16px;
+  padding: 10px 14px; font-weight: 900; color: var(--green); margin-bottom: 34px;
+  box-shadow: 0 0 26px -8px rgba(57, 255, 20, 0.6); white-space: nowrap;
+}
+
+/* ---------- Konfety ---------- */
+.confetti { position: fixed; top: -10px; width: 10px; height: 14px; z-index: 90; pointer-events: none; border-radius: 2px; }
+@keyframes fall { to { transform: translateY(105vh) rotate(540deg); opacity: 0; } }
+
+/* Dostupnost: respektuj vypnuté animace */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.05ms !important; }
+}

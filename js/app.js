@@ -548,6 +548,19 @@
         };
       });
     }
+    if (t.type === "divide") {
+      return Array.from({ length: 10 }, (_, i) => {
+        const b = i + 1;
+        const a = t.factor * b;
+        return {
+          math: true,
+          word: `${a} ÷ ${t.factor} = ${b}`,
+          emoji: "➗",
+          note: `${a} děleno ${t.factor}`,
+          sentence: `${a} ÷ ${t.factor} = ${b}`
+        };
+      });
+    }
     if (t.type === "arith") {
       const ex = [
         { a: 5, b: 3, op: "+" }, { a: 8, b: 2, op: "-" }, { a: 7, b: 6, op: "+" },
@@ -653,6 +666,7 @@
      ---------------------------------------------------------------------- */
   function buildQuestions(s, t) {
     if (t.type === "times") return buildTimes(t.factor);
+    if (t.type === "divide") return buildDivide(t.factor);
     if (t.type === "arith") return buildArith();
     if (t.type === "vocab") return buildVocab(t.cards);
     if (t.type === "vyjm") return buildVyjm(t.cards);
@@ -881,6 +895,21 @@
         options: opts.map((n) => ({ label: n, correct: n === res })),
         twoCol: true,
         explain: `${factor} × ${b} = ${res}`
+      };
+    });
+  }
+
+  function buildDivide(factor) {
+    return shuffle(Array.from({ length: 10 }, (_, i) => i + 1)).map((b) => {
+      const a = factor * b; // dělenec
+      const res = b;
+      const opts = numericOptions(res);
+      return {
+        emoji: "➗",
+        prompt: `${a} ÷ ${factor} = ?`,
+        options: opts.map((n) => ({ label: n, correct: n === res })),
+        twoCol: true,
+        explain: `${a} ÷ ${factor} = ${res}`
       };
     });
   }

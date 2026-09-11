@@ -604,7 +604,38 @@
     if (t.type === "vyjm") return buildVyjm(t.cards);
     if (t.type === "zs") return buildZS(t);
     if (t.type === "units") return buildUnits();
+    if (t.type === "hardsoft") return buildHardSoft(t);
     return [];
+  }
+
+  // Kvíz „Tvrdé a měkké souhlásky" – doplň I/Í vs Y/Ý + vyber správné psaní
+  function buildHardSoft(t) {
+    const cards = t.cards || [];
+    const qs = [];
+    const swap = { y: "i", i: "y", "ý": "í", "í": "ý" };
+    cards.forEach((c) => {
+      const long = c.hl === "ý" || c.hl === "í";
+      const blanked = c.word.replace(c.hl, `<span class="q-blank">__</span>`);
+      const opts = long
+        ? [{ label: "Ý", correct: c.hl === "ý" }, { label: "Í", correct: c.hl === "í" }]
+        : [{ label: "Y", correct: c.hl === "y" }, { label: "I", correct: c.hl === "i" }];
+      qs.push({
+        _t: "fill", emoji: c.emoji,
+        prompt: `Doplň:<br><span class="q-sentence">${blanked}</span>`,
+        options: shuffle(opts), twoCol: true,
+        explain: `Správně je „${c.word}“. ${c.note}`
+      });
+      const wrong = c.word.replace(c.hl, swap[c.hl]);
+      qs.push({
+        _t: "choose", emoji: c.emoji,
+        prompt: `Vyber správné slovo:`,
+        options: shuffle([{ label: c.word, correct: true }, { label: wrong, correct: false }]),
+        twoCol: true,
+        explain: `Správně je „${c.word}“. ${c.note}`
+      });
+    });
+    const by = (tp, n) => shuffle(qs.filter((q) => q._t === tp)).slice(0, n);
+    return shuffle([...by("fill", 7), ...by("choose", 3)]).slice(0, 10);
   }
 
   // Kvíz „Jednotky délky" – převody, výběr jednotky, porovnání

@@ -179,7 +179,28 @@ const DATA = {
             { word: "těžší", hl: "ž", emoji: "🏋️", note: "těžký → těžší", sentence: "Plný batoh je těžší." }
           ]
         },
-        { id: "tvrde-mekke", name: "Tvrdé a měkké souhlásky", icon: "🔤", type: "soon", cards: [] },
+        {
+          id: "tvrde-mekke", name: "Tvrdé a měkké souhlásky", icon: "🔤", type: "hardsoft",
+          intro: "Po tvrdých souhláskách (H, CH, K, R, D, T, N) píšeme Y/Ý. Po měkkých (Ž, Š, Č, Ř, C, J, Ď, Ť, Ň) píšeme I/Í. Pozor na výjimky – vyjmenovaná slova. 🧠",
+          cards: [
+            { word: "hyena", hl: "y", emoji: "🐺", note: "Po tvrdém H píšeme Y.", sentence: "Hyena se hlasitě směje." },
+            { word: "chyba", hl: "y", emoji: "❌", note: "Po tvrdém CH píšeme Y.", sentence: "Udělal jsem chybu." },
+            { word: "kytka", hl: "y", emoji: "🌷", note: "Po tvrdém K píšeme Y.", sentence: "Dostala jsem kytku." },
+            { word: "ryba", hl: "y", emoji: "🐟", note: "Po tvrdém R píšeme Y.", sentence: "Ryba plave ve vodě." },
+            { word: "dýně", hl: "ý", emoji: "🎃", note: "Po tvrdém D píšeme Ý.", sentence: "Z dýně je dobrá polévka." },
+            { word: "tygr", hl: "y", emoji: "🐯", note: "Po tvrdém T píšeme Y.", sentence: "Tygr má pruhy." },
+            { word: "nýt", hl: "ý", emoji: "🔩", note: "Po tvrdém N píšeme Ý.", sentence: "Nýt drží plech." },
+            { word: "žito", hl: "i", emoji: "🌾", note: "Po měkkém Ž píšeme I.", sentence: "Na poli roste žito." },
+            { word: "šiška", hl: "i", emoji: "🌲", note: "Po měkkém Š píšeme I.", sentence: "Pod smrkem leží šiška." },
+            { word: "čistý", hl: "i", emoji: "✨", note: "Po měkkém Č píšeme I.", sentence: "Mám čistý stůl." },
+            { word: "řízek", hl: "í", emoji: "🍖", note: "Po měkkém Ř píšeme Í.", sentence: "K obědu je řízek." },
+            { word: "cihla", hl: "i", emoji: "🧱", note: "Po měkkém C píšeme I.", sentence: "Zeď je z cihel." },
+            { word: "jiskra", hl: "i", emoji: "⚡", note: "Po měkkém J píšeme I.", sentence: "Z ohně létají jiskry." },
+            { word: "dítě", hl: "í", emoji: "👶", note: "Slabika DÍ je měkká – píšeme Í.", sentence: "Dítě si hraje." },
+            { word: "ticho", hl: "i", emoji: "🤫", note: "Slabika TI je měkká – píšeme I.", sentence: "V knihovně je ticho." },
+            { word: "nikdo", hl: "i", emoji: "🚫", note: "Slabika NI je měkká – píšeme I.", sentence: "Nikdo tu není." }
+          ]
+        },
         { id: "druhy-slov",  name: "Druhy slov",              icon: "🧩", type: "soon", cards: [] },
         { id: "podst-jmena", name: "Podstatná jména",         icon: "🏷️", type: "soon", cards: [] },
         { id: "slovesa-cj",  name: "Slovesa",                 icon: "🏃", type: "soon", cards: [] },

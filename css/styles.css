@@ -453,22 +453,11 @@ p { line-height: 1.4; }
 }
 
 /* Úvodní video při spuštění */
-.intro-video-wrap { position: relative; width: 100%; max-width: 520px; text-align: center; }
+.intro-video-wrap { position: relative; width: 100%; margin-bottom: 12px; }
 .intro-video-wrap video {
-  width: 100%; max-height: 74vh; border-radius: 22px; background: #000; display: block;
-  box-shadow: 0 0 44px -10px rgba(0, 229, 255, 0.55);
+  width: 100%; max-height: 44vh; border-radius: 18px; background: #000; display: block;
+  box-shadow: 0 0 34px -10px rgba(0, 229, 255, 0.55);
 }
-#introPlay {
-  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-  width: auto; padding: 16px 26px; font-size: 20px;
-}
-.intro-skip {
-  position: absolute; top: 12px; right: 12px;
-  background: rgba(5, 5, 12, 0.6); color: var(--text); border: 1px solid var(--line);
-  border-radius: 999px; padding: 8px 14px; font-weight: 800; font-size: 13px; cursor: pointer;
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-}
-.intro-skip:active { transform: scale(0.94); }
 
 /* Maskot na úvodní obrazovce */
 .lumi-hero {

@@ -129,30 +129,23 @@
     greeted = true;
     const ov = document.createElement("div");
     ov.className = "lumi-overlay video-intro";
-    ov.innerHTML = `<div class="intro-video-wrap">
-        <video id="introVid" src="${INTRO_VIDEO}" playsinline preload="auto"></video>
-        <button class="btn" id="introPlay">▶️ Přehrát</button>
-        <button class="intro-skip" id="introSkip">Přeskočit ✕</button>
+    ov.innerHTML = `<div class="lumi-card">
+        <div class="intro-video-wrap">
+          <video id="introVid" src="${INTRO_VIDEO}" muted autoplay loop playsinline preload="auto"></video>
+        </div>
+        <div class="lumi-bubble"><span class="hi">Ahoj Marťo!</span> Já jsem <b>Lumi</b> 🤖<br>Těším se, co všechno se spolu naučíme!</div>
+        <button class="btn" id="lumiHi" style="margin-top:16px">👋 Ahoj Lumi!</button>
       </div>`;
     document.body.appendChild(ov);
 
     const vid = $("#introVid");
-    const playBtn = $("#introPlay");
-    let closed = false;
-    const close = () => {
-      if (closed) return; closed = true;
-      try { vid.pause(); } catch (e) {}
-      ov.remove();
-    };
-
-    $("#introSkip").addEventListener("click", close);
-    playBtn.addEventListener("click", () => { vid.play(); });
-    vid.addEventListener("playing", () => { playBtn.hidden = true; });
-    vid.addEventListener("ended", close);
-    vid.addEventListener("error", close); // kdyby se video nenačetlo, nezablokuje appku
-    // pokus o automatické spuštění; když prohlížeč blokuje, zůstane tlačítko Přehrát
+    vid.muted = true;              // ztlumené video se smí přehrát samo (i na mobilu)
     const p = vid.play();
-    if (p && p.catch) p.catch(() => { playBtn.hidden = false; });
+    if (p && p.catch) p.catch(() => {}); // kdyby přehrání selhalo, appku to nezablokuje
+
+    const close = () => { try { vid.pause(); } catch (e) {} ov.remove(); };
+    $("#lumiHi").addEventListener("click", close);
+    ov.addEventListener("click", (e) => { if (e.target === ov) close(); });
   }
 
   // Pochvala „Skvělá práce!" – hlas + bublina v rohu

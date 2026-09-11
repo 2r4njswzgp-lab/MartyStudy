@@ -209,7 +209,7 @@
 
   const practiceableTopics = () => {
     let n = 0;
-    DATA.subjects.forEach((s) => s.topics.forEach((t) => { if (t.type !== "soon") n++; }));
+    DATA.subjects.forEach((s) => s.topics.forEach((t) => { if (t.type !== "soon" && t.type !== "group") n++; }));
     return n;
   };
   const practicedCount = () => Object.keys(store.progress).length;
@@ -230,6 +230,7 @@
       case "home": renderHome(); setNav("home"); break;
       case "subjects": renderSubjects(); setNav("subjects"); break;
       case "subject": renderSubject(parts[1]); setNav("subjects"); break;
+      case "group": renderGroup(parts[1], parts[2]); setNav("subjects"); break;
       case "topic": renderTopic(parts[1], parts[2]); setNav("subjects"); break;
       case "quiz": renderQuiz(parts[1], parts[2]); setNav("practice"); break;
       case "practice": renderPractice(); setNav("practice"); break;
@@ -380,24 +381,36 @@
   /* ----------------------------------------------------------------------
      Obrazovka: JEDEN PŘEDMĚT (seznam témat)
      ---------------------------------------------------------------------- */
+  // Řádek tématu / skupiny v seznamu
+  function topicRowHTML(s, t) {
+    if (t.type === "group") {
+      const count = s.topics.filter((x) => x.group === t.id).length;
+      return `<button class="topic" data-group="${s.id}/${t.id}" style="--accent:${s.color}">
+        <span class="ic">${t.icon}</span>
+        <span class="nm">${t.name}</span>
+        <span class="meta"><span class="progress-pill">${count}</span><span style="color:${s.color};font-size:20px">›</span></span>
+      </button>`;
+    }
+    const prog = store.progress[topicKey(s.id, t.id)];
+    const meta =
+      t.type === "soon"
+        ? `<span class="badge-soon">Brzy</span>`
+        : prog
+        ? `<span class="progress-pill">${prog.best}%</span>`
+        : "";
+    return `<button class="topic" data-topic="${s.id}/${t.id}" style="--accent:${s.color}">
+      <span class="ic">${t.icon}</span>
+      <span class="nm">${t.name}</span>
+      <span class="meta">${meta}<span style="color:${s.color};font-size:20px">›</span></span>
+    </button>`;
+  }
+
   function renderSubject(sid) {
     const s = DATA.findSubject(sid);
     if (!s) return go("/subjects");
 
-    const rows = s.topics.map((t) => {
-      const prog = store.progress[topicKey(sid, t.id)];
-      const meta =
-        t.type === "soon"
-          ? `<span class="badge-soon">Brzy</span>`
-          : prog
-          ? `<span class="progress-pill">${prog.best}%</span>`
-          : "";
-      return `<button class="topic" data-topic="${sid}/${t.id}" style="--accent:${s.color}">
-        <span class="ic">${t.icon}</span>
-        <span class="nm">${t.name}</span>
-        <span class="meta">${meta}<span style="color:${s.color};font-size:20px">›</span></span>
-      </button>`;
-    });
+    // témata patřící do skupiny se zobrazí až uvnitř skupiny
+    const rows = s.topics.filter((t) => !t.group).map((t) => topicRowHTML(s, t));
 
     app.innerHTML = `
       <div class="topbar">
@@ -410,11 +423,35 @@
     bindTopicRows();
   }
 
+  // Obrazovka: SKUPINA témat (např. Anglické věty)
+  function renderGroup(sid, gid) {
+    const s = DATA.findSubject(sid);
+    const g = s ? s.topics.find((t) => t.id === gid && t.type === "group") : null;
+    if (!s || !g) return go(`/subject/${sid}`);
+
+    const rows = s.topics.filter((t) => t.group === gid).map((t) => topicRowHTML(s, t));
+    app.innerHTML = `
+      <div class="topbar">
+        <button class="backbtn" id="back">‹</button>
+        <h2 style="color:${s.color}">${g.icon} ${g.name}</h2>
+      </div>
+      <div class="topic-list">${rows.join("")}</div>
+    `;
+    $("#back").addEventListener("click", () => go(`/subject/${sid}`));
+    bindTopicRows();
+  }
+
   function bindTopicRows() {
     $$(".topic[data-topic]").forEach((b) =>
       b.addEventListener("click", () => {
         const [sid, tid] = b.dataset.topic.split("/");
         go(`/topic/${sid}/${tid}`);
+      })
+    );
+    $$(".topic[data-group]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const [sid, gid] = b.dataset.group.split("/");
+        go(`/group/${sid}/${gid}`);
       })
     );
   }
@@ -1107,7 +1144,7 @@
 
     DATA.subjects.forEach((s) => {
       const rows = s.topics
-        .filter((t) => t.type !== "soon")
+        .filter((t) => t.type !== "soon" && t.type !== "group")
         .map((t) => {
           const prog = store.progress[topicKey(s.id, t.id)];
           const meta = prog ? `<span class="progress-pill">nejlíp ${prog.best}%</span>` : "";

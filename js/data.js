@@ -423,8 +423,9 @@ const DATA = {
             { en: "jump", cs: "skákat", emoji: "🤸", sentence: "I jump high.", scs: "Skáču vysoko." }
           ]
         },
+        { id: "vety", name: "Anglické věty", icon: "📝", type: "group" },
         {
-          id: "vety-pozdravy", name: "Věty – Pozdravy a fráze", icon: "👋", type: "phrases",
+          id: "vety-pozdravy", name: "Pozdravy a fráze", icon: "👋", type: "phrases", group: "vety",
           cards: [
             { en: "Hello!", cs: "Ahoj!", emoji: "👋", phrase: true },
             { en: "Good morning.", cs: "Dobré ráno.", emoji: "🌅", phrase: true },
@@ -439,7 +440,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-omne", name: "Věty – O mně", icon: "🙋", type: "phrases",
+          id: "vety-omne", name: "O mně", icon: "🙋", type: "phrases", group: "vety",
           cards: [
             { en: "What is your name?", cs: "Jak se jmenuješ?", emoji: "❓", phrase: true },
             { en: "My name is Tom.", cs: "Jmenuji se Tom.", emoji: "🧒", phrase: true },
@@ -454,7 +455,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-rodina", name: "Věty – Rodina", icon: "👨‍👩‍👧", type: "phrases",
+          id: "vety-rodina", name: "Rodina", icon: "👨‍👩‍👧", type: "phrases", group: "vety",
           cards: [
             { en: "This is my mum.", cs: "Toto je moje maminka.", emoji: "👩", phrase: true },
             { en: "This is my dad.", cs: "Toto je můj tatínek.", emoji: "👨", phrase: true },
@@ -469,7 +470,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-zvirata", name: "Věty – Zvířata", icon: "🐾", type: "phrases",
+          id: "vety-zvirata", name: "Zvířata", icon: "🐾", type: "phrases", group: "vety",
           cards: [
             { en: "I have a dog.", cs: "Mám psa.", emoji: "🐶", phrase: true },
             { en: "I have a cat.", cs: "Mám kočku.", emoji: "🐱", phrase: true },
@@ -484,7 +485,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-skola", name: "Věty – Škola", icon: "🏫", type: "phrases",
+          id: "vety-skola", name: "Škola", icon: "🏫", type: "phrases", group: "vety",
           cards: [
             { en: "This is my school.", cs: "Toto je moje škola.", emoji: "🏫", phrase: true },
             { en: "I am at school.", cs: "Jsem ve škole.", emoji: "🎒", phrase: true },
@@ -499,7 +500,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-barvy", name: "Věty – Barvy a věci", icon: "🎨", type: "phrases",
+          id: "vety-barvy", name: "Barvy a věci", icon: "🎨", type: "phrases", group: "vety",
           cards: [
             { en: "The book is blue.", cs: "Kniha je modrá.", emoji: "📘", phrase: true },
             { en: "The pencil is yellow.", cs: "Tužka je žlutá.", emoji: "✏️", phrase: true },
@@ -514,7 +515,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-jidlo", name: "Věty – Jídlo a pití", icon: "🍎", type: "phrases",
+          id: "vety-jidlo", name: "Jídlo a pití", icon: "🍎", type: "phrases", group: "vety",
           cards: [
             { en: "I like apples.", cs: "Mám rád jablka.", emoji: "🍎", phrase: true },
             { en: "I like bananas.", cs: "Mám rád banány.", emoji: "🍌", phrase: true },
@@ -529,7 +530,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-umim", name: "Věty – Co umím", icon: "💪", type: "phrases",
+          id: "vety-umim", name: "Co umím", icon: "💪", type: "phrases", group: "vety",
           cards: [
             { en: "I can run.", cs: "Umím běhat.", emoji: "🏃", phrase: true },
             { en: "I can jump.", cs: "Umím skákat.", emoji: "🤸", phrase: true },
@@ -544,7 +545,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-pocasi", name: "Věty – Počasí a dny", icon: "🌦️", type: "phrases",
+          id: "vety-pocasi", name: "Počasí a dny", icon: "🌦️", type: "phrases", group: "vety",
           cards: [
             { en: "It is sunny.", cs: "Je slunečno.", emoji: "☀️", phrase: true },
             { en: "It is raining.", cs: "Prší.", emoji: "🌧️", phrase: true },
@@ -559,7 +560,7 @@ const DATA = {
           ]
         },
         {
-          id: "vety-kde", name: "Věty – Kde co je", icon: "📍", type: "phrases",
+          id: "vety-kde", name: "Kde co je", icon: "📍", type: "phrases", group: "vety",
           cards: [
             { en: "Where are you?", cs: "Kde jsi?", emoji: "❓", phrase: true },
             { en: "I am at home.", cs: "Jsem doma.", emoji: "🏠", phrase: true },

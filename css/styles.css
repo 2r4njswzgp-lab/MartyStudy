@@ -313,6 +313,26 @@ p { line-height: 1.4; }
 .line-item .v { color: var(--green); font-weight: 900; }
 .danger { background: linear-gradient(90deg, var(--bad), var(--orange)) !important; color: #fff !important; }
 
+/* ---------- PIN brána (rodiče) ---------- */
+.pin-wrap { max-width: 320px; margin: 20px auto 0; text-align: center; }
+.pin-dots { display: flex; justify-content: center; gap: 16px; margin: 10px 0; }
+.pin-dots span {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid var(--line); background: transparent; transition: all 0.15s;
+}
+.pin-dots span.on { background: var(--blue); border-color: var(--blue); box-shadow: 0 0 12px var(--blue); }
+.pin-dots.shake { animation: shake 0.4s ease; }
+.pin-msg { color: var(--bad); font-weight: 800; font-size: 14px; min-height: 20px; margin-bottom: 8px; }
+.pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.pin-key {
+  border: 1px solid var(--line); background: var(--card2); color: var(--text);
+  font-family: var(--font); font-weight: 900; font-size: 26px; cursor: pointer;
+  aspect-ratio: 1 / 1; border-radius: 18px; transition: transform 0.08s, background 0.2s;
+}
+.pin-key:active { transform: scale(0.92); background: var(--card); }
+.pin-key.pin-del { color: var(--orange); font-size: 22px; }
+.pin-key.pin-empty { border: none; background: transparent; cursor: default; }
+
 /* ---------- Install banner ---------- */
 .install-banner {
   display: flex; align-items: center; gap: 12px;

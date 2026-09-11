@@ -82,6 +82,14 @@
      ---------------------------------------------------------------------- */
   const LUMI_IMG = "img/lumi.png";
   const INTRO_VIDEO = "video.mp4";
+
+  // Rodičovský PIN (výchozí; lze změnit v souboru pin.txt)
+  let PARENT_PIN = "1235";
+  let parentUnlocked = false;
+  fetch("pin.txt")
+    .then((r) => (r.ok ? r.text() : null))
+    .then((t) => { if (t && t.trim()) PARENT_PIN = t.trim(); })
+    .catch(() => {});
   const LUMI_GREETING = "Ahoj Marťo, já jsem Lumi, těším se, co všechno se spolu naučíme.";
   let csVoice = null;
 
@@ -1272,7 +1280,60 @@
   /* ----------------------------------------------------------------------
      Obrazovka: NASTAVENÍ / PRO RODIČE
      ---------------------------------------------------------------------- */
+  // PIN brána pro rodičovskou sekci
+  function renderPinGate() {
+    app.innerHTML = `
+      <div class="topbar">
+        <button class="backbtn" id="back">‹</button>
+        <h2>🔒 Jen pro rodiče</h2>
+      </div>
+      <p style="color:var(--muted);font-weight:700;margin:2px 0 8px">Zadej PIN a pokračuj do nastavení.</p>
+      <div class="pin-wrap">
+        <div class="pin-dots" id="pinDots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="pin-msg" id="pinMsg">&nbsp;</div>
+        <div class="pin-pad" id="pinPad">
+          ${[1,2,3,4,5,6,7,8,9].map((n) => `<button class="pin-key" data-k="${n}">${n}</button>`).join("")}
+          <button class="pin-key pin-empty" disabled></button>
+          <button class="pin-key" data-k="0">0</button>
+          <button class="pin-key pin-del" data-k="del">⌫</button>
+        </div>
+      </div>`;
+    $("#back").addEventListener("click", () => go("/home"));
+
+    let entry = "";
+    const dots = $$("#pinDots span");
+    const msg = $("#pinMsg");
+    const draw = () => dots.forEach((d, i) => d.classList.toggle("on", i < entry.length));
+
+    const check = () => {
+      if (entry === PARENT_PIN) {
+        parentUnlocked = true;
+        renderSettings();
+      } else {
+        msg.textContent = "Špatný PIN, zkus to znovu.";
+        $("#pinDots").classList.add("shake");
+        setTimeout(() => { $("#pinDots") && $("#pinDots").classList.remove("shake"); }, 450);
+        entry = "";
+        draw();
+      }
+    };
+
+    $$("#pinPad .pin-key[data-k]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const k = b.dataset.k;
+        if (k === "del") { entry = entry.slice(0, -1); msg.innerHTML = "&nbsp;"; draw(); return; }
+        if (entry.length >= 4) return;
+        entry += k;
+        draw();
+        if (entry.length === 4) setTimeout(check, 150);
+      })
+    );
+  }
+
   function renderSettings() {
+    if (!parentUnlocked) return renderPinGate();
     const answered = store.stats.answered;
     const correct = store.stats.correct;
     const acc = answered ? Math.round((correct / answered) * 100) : 0;

@@ -1,5 +1,5 @@
 /* MartyStudy – service worker (offline + automatická aktualizace) */
-const CACHE = "martystudy-v17";
+const CACHE = "martystudy-v18";
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,7 +10,8 @@ const ASSETS = [
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",
   "./img/lumi.png",
-  "./video.mp4"
+  "./video.mp4",
+  "./pin.txt"
 ];
 
 self.addEventListener("install", (e) => {

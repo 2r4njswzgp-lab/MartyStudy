@@ -1335,10 +1335,20 @@
   // Lumi pozdraví hned po otevření aplikace
   greetLumi();
 
-  // Service worker
+  // Service worker + automatická aktualizace po nasazení
   if ("serviceWorker" in navigator) {
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloaded) return;
+      reloaded = true;
+      if (hadController) location.reload(); // nová verze převzala řízení → načti ji
+    });
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js").then((reg) => {
+        reg.update();
+        setInterval(() => reg.update(), 60 * 60 * 1000); // hodinová kontrola aktualizace
+      }).catch(() => {});
     });
   }
 })();

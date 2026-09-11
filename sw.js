@@ -1,5 +1,5 @@
-/* MartyStudy – service worker (offline režim) */
-const CACHE = "martystudy-v13";
+/* MartyStudy – service worker (offline + automatická aktualizace) */
+const CACHE = "martystudy-v14";
 const ASSETS = [
   "./",
   "./index.html",
@@ -27,21 +27,41 @@ self.addEventListener("activate", (e) => {
   self.clients.claim();
 });
 
-/* Cache-first: appka je malá a má fungovat i bez internetu */
+// velké/statické soubory držíme cache-first, kód a obsah bereme network-first
+const MEDIA = /\.(png|jpe?g|gif|svg|webp|mp4|webm|woff2?)$/i;
+
 self.addEventListener("fetch", (e) => {
-  if (e.request.method !== "GET") return;
-  e.respondWith(
-    caches.match(e.request).then((cached) => {
-      return (
+  const req = e.request;
+  if (req.method !== "GET") return;
+
+  const url = new URL(req.url);
+  const isMedia = MEDIA.test(url.pathname);
+
+  if (isMedia) {
+    // cache-first (rychlé, offline, mění se zřídka – při změně stačí bump verze)
+    e.respondWith(
+      caches.match(req).then((cached) =>
         cached ||
-        fetch(e.request)
-          .then((res) => {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(e.request, copy));
-            return res;
-          })
-          .catch(() => caches.match("./index.html"))
-      );
-    })
+        fetch(req).then((res) => {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(req, copy));
+          return res;
+        })
+      )
+    );
+    return;
+  }
+
+  // network-first pro HTML/JS/CSS/JSON – online vždy nejnovější, offline z cache
+  e.respondWith(
+    fetch(req)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy));
+        return res;
+      })
+      .catch(() =>
+        caches.match(req).then((cached) => cached || caches.match("./index.html"))
+      )
   );
 });

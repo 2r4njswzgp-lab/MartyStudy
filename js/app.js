@@ -271,8 +271,6 @@
         <div class="hello"><b style="color:var(--blue)">Ahoj Marťo,</b> vítej zpět. 👋</div>
       </div>
 
-      ${installBannerHTML()}
-
       <div class="progress-wrap">
         <div class="progress-top">
           <div>
@@ -308,7 +306,6 @@
     $("#settingsBtn").addEventListener("click", () => go("/settings"));
     bindTiles();
     bindTopicRows();
-    bindInstall();
     const hero = $("#lumiHero");
     if (hero) {
       const cheers = [

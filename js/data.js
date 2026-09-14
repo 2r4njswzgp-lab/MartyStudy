@@ -787,7 +787,13 @@ const DATA = {
           id: "ve-videa", name: "Videa", icon: "🎬", type: "videos",
           intro: "Podívej se na video o vesmíru. 🎬",
           videos: [
-            { title: "Sluneční soustava (video)", yt: "7_Ncl_6-g90" }
+            { title: "Sluneční soustava", yt: "7_Ncl_6-g90" },
+            { title: "Jak vznikla planeta Země", yt: "ts9ud49cy9k" },
+            { title: "Cesta vesmírem (Cosmos 4K)", yt: "IWVJq-4zW24" },
+            { title: "13 neuvěřitelných planet", yt: "ERHlTKgePTc" },
+            { title: "Cesta do černé díry", yt: "0Zs2KVC4xBo" },
+            { title: "Celá sluneční soustava za 20 minut", yt: "2e9ZxzjIAjk" },
+            { title: "Porovnání velikosti hvězd", yt: "GoW8Tf7hTGA" }
           ]
         }
       ]

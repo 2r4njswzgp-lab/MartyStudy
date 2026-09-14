@@ -711,6 +711,21 @@ const DATA = {
           ]
         }
       ]
+    },
+    {
+      id: "ve",
+      name: "Vesmír",
+      short: "Vesmír",
+      color: "#ff9800",
+      color2: "#ffb74d",
+      icon: "🚀",
+      topics: [
+        { id: "ve-slunecni", name: "Sluneční soustava", icon: "☀️", type: "soon", cards: [] },
+        { id: "ve-planety", name: "Planety", icon: "🪐", type: "soon", cards: [] },
+        { id: "ve-hvezdy", name: "Hvězdy", icon: "⭐", type: "soon", cards: [] },
+        { id: "ve-mesic", name: "Měsíc", icon: "🌙", type: "soon", cards: [] },
+        { id: "ve-rakety", name: "Rakety a lodě", icon: "🚀", type: "soon", cards: [] }
+      ]
     }
   ]
 };

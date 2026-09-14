@@ -720,11 +720,69 @@ const DATA = {
       color2: "#ffb74d",
       icon: "🚀",
       topics: [
-        { id: "ve-slunecni", name: "Sluneční soustava", icon: "☀️", type: "soon", cards: [] },
-        { id: "ve-planety", name: "Planety", icon: "🪐", type: "soon", cards: [] },
-        { id: "ve-hvezdy", name: "Hvězdy", icon: "⭐", type: "soon", cards: [] },
-        { id: "ve-mesic", name: "Měsíc", icon: "🌙", type: "soon", cards: [] },
-        { id: "ve-rakety", name: "Rakety a lodě", icon: "🚀", type: "soon", cards: [] }
+        {
+          id: "ve-slunecni", name: "Sluneční soustava", icon: "☀️", type: "facts",
+          intro: "Sluneční soustava je náš vesmírný domov. Uprostřed je Slunce a kolem něj obíhá 8 planet. ☀️",
+          cards: [
+            { word: "Slunce", emoji: "☀️", note: "Obrovská hvězda uprostřed. Dává nám světlo a teplo.", sentence: "Do Slunce by se vešlo přes milion Zemí!", fact: true },
+            { word: "Planeta", emoji: "🪐", note: "Velké těleso, které obíhá kolem Slunce.", sentence: "Planet je v naší soustavě osm.", fact: true },
+            { word: "Oběžná dráha", emoji: "🔄", note: "Cesta, po které planeta obíhá kolem Slunce.", sentence: "Země oběhne Slunce jednou za rok.", fact: true },
+            { word: "Asteroid", emoji: "🪨", note: "Menší kamenné těleso ve vesmíru.", sentence: "Mezi Marsem a Jupiterem je pás asteroidů.", fact: true },
+            { word: "Kometa", emoji: "☄️", note: "Ledová koule s dlouhým ohonem.", sentence: "Ohon komety vždy míří od Slunce.", fact: true },
+            { word: "Gravitace", emoji: "🧲", note: "Síla, která přitahuje tělesa k sobě.", sentence: "Díky gravitaci planety neuletí od Slunce.", fact: true },
+            { word: "Vesmír", emoji: "🌌", note: "Nekonečný prostor plný hvězd.", sentence: "Ve vesmíru není vzduch, je tam ticho.", fact: true }
+          ]
+        },
+        {
+          id: "ve-planety", name: "Planety", icon: "🪐", type: "facts",
+          intro: "Kolem Slunce obíhá 8 planet. Tady jsou v pořadí od Slunce. 🪐",
+          cards: [
+            { word: "Merkur", emoji: "🌑", note: "Nejmenší planeta a Slunci nejblíž.", sentence: "Ve dne je tam horko, v noci mráz.", fact: true },
+            { word: "Venuše", emoji: "🟡", note: "Nejteplejší planeta, zahalená v mracích.", sentence: "Na obloze svítí jako Jitřenka.", fact: true },
+            { word: "Země", emoji: "🌍", note: "Naše planeta – jediná, kde žijeme.", sentence: "Má vodu, vzduch i život.", fact: true },
+            { word: "Mars", emoji: "🔴", note: "Rudá planeta plná prachu.", sentence: "Rudou barvu má díky rezavému písku.", fact: true },
+            { word: "Jupiter", emoji: "🟠", note: "Největší planeta, plynný obr.", sentence: "Má obří bouři – Velkou rudou skvrnu.", fact: true },
+            { word: "Saturn", emoji: "🪐", note: "Planeta s krásnými prstenci.", sentence: "Prstence jsou z ledu a kamení.", fact: true },
+            { word: "Uran", emoji: "🔵", note: "Ledová planeta, otáčí se skoro naležato.", sentence: "Má nazelenale modrou barvu.", fact: true },
+            { word: "Neptun", emoji: "🟣", note: "Nejvzdálenější planeta, tmavě modrá.", sentence: "Fouká tam nejsilnější vítr ze všech planet.", fact: true }
+          ]
+        },
+        {
+          id: "ve-hvezdy", name: "Hvězdy", icon: "⭐", type: "facts",
+          intro: "Hvězdy jsou obrovské svítící koule horkého plynu, hodně daleko od nás. ⭐",
+          cards: [
+            { word: "Hvězda", emoji: "⭐", note: "Svítící koule horkého plynu.", sentence: "Naše nejbližší hvězda je Slunce.", fact: true },
+            { word: "Souhvězdí", emoji: "✨", note: "Skupina hvězd, která tvoří obrazec.", sentence: "Známé souhvězdí je Velký vůz.", fact: true },
+            { word: "Polárka", emoji: "🌟", note: "Hvězda, která ukazuje na sever.", sentence: "Podle ní se orientovali námořníci.", fact: true },
+            { word: "Galaxie", emoji: "🌌", note: "Obrovská skupina miliard hvězd.", sentence: "Naše galaxie se jmenuje Mléčná dráha.", fact: true },
+            { word: "Padající hvězda", emoji: "💫", note: "Světelná čára na noční obloze.", sentence: "Je to kamínek, který shoří v ovzduší.", fact: true },
+            { word: "Světelný rok", emoji: "📏", note: "Vzdálenost, kterou světlo urazí za rok.", sentence: "Hvězdy jsou tak daleko, že je měříme světelnými roky.", fact: true }
+          ]
+        },
+        {
+          id: "ve-mesic", name: "Měsíc", icon: "🌙", type: "facts",
+          intro: "Měsíc je náš nejbližší vesmírný soused. Obíhá kolem Země. 🌙",
+          cards: [
+            { word: "Měsíc", emoji: "🌕", note: "Kamenné těleso, které obíhá Zemi.", sentence: "Měsíc nesvítí sám – odráží světlo Slunce.", fact: true },
+            { word: "Krátery", emoji: "🕳️", note: "Důlky po dopadech kamenů.", sentence: "Na Měsíci je jich obrovské množství.", fact: true },
+            { word: "Úplněk", emoji: "🌕", note: "Když vidíme celý kulatý Měsíc.", sentence: "Za úplňku je Měsíc nejjasnější.", fact: true },
+            { word: "Nov", emoji: "🌑", note: "Když Měsíc skoro není vidět.", sentence: "Při novu je Měsíc temný.", fact: true },
+            { word: "Fáze Měsíce", emoji: "🌗", note: "Měsíc mění tvar od srpku po úplněk.", sentence: "Fáze se vystřídají asi za měsíc.", fact: true },
+            { word: "Přistání na Měsíci", emoji: "👨‍🚀", note: "Lidé přistáli na Měsíci v roce 1969.", sentence: "První člověk na Měsíci byl Neil Armstrong.", fact: true }
+          ]
+        },
+        {
+          id: "ve-rakety", name: "Rakety a lodě", icon: "🚀", type: "facts",
+          intro: "Do vesmíru se dostaneme jen raketou. Podívej, co k tomu potřebujeme. 🚀",
+          cards: [
+            { word: "Raketa", emoji: "🚀", note: "Stroj, který dokáže odletět do vesmíru.", sentence: "Musí letět hodně rychle, aby unikla ze Země.", fact: true },
+            { word: "Kosmonaut", emoji: "👨‍🚀", note: "Člověk, který létá do vesmíru.", sentence: "První kosmonaut byl Jurij Gagarin.", fact: true },
+            { word: "Skafandr", emoji: "🥽", note: "Speciální oblek pro vesmír.", sentence: "Dává kosmonautovi vzduch k dýchání.", fact: true },
+            { word: "Družice", emoji: "📡", note: "Přístroj, který obíhá kolem Země.", sentence: "Pomáhá s počasím, telefonem i navigací.", fact: true },
+            { word: "Vesmírná stanice", emoji: "🛰️", note: "Velká loď, kde kosmonauti bydlí a pracují.", sentence: "Stanice ISS obletí Zemi za 90 minut.", fact: true },
+            { word: "Vozítko (rover)", emoji: "🤖", note: "Robot, který jezdí po jiné planetě.", sentence: "Rovery zkoumají povrch Marsu.", fact: true }
+          ]
+        }
       ]
     }
   ]

@@ -591,7 +591,14 @@
     const favLabel = fav ? "★ Oblíbené" : "☆ Oblíbené";
 
     let body = "";
-    if (c.phrase) {
+    if (c.fact) {
+      // Vesmír – název + popis + zajímavost
+      body = `
+        <div class="big-emoji">${c.emoji}</div>
+        <div class="word">${c.word}</div>
+        <div class="note">${c.note}</div>
+        ${c.sentence ? `<div class="fact">💡 ${c.sentence}</div>` : ""}`;
+    } else if (c.phrase) {
       // Anglická věta (celá fráze)
       body = `
         <div class="big-emoji">${c.emoji}</div>
@@ -683,7 +690,32 @@
     if (t.type === "units") return buildUnits();
     if (t.type === "hardsoft") return buildHardSoft(t);
     if (t.type === "phrases") return buildPhrases(t.cards);
+    if (t.type === "facts") return buildFacts(t.cards);
     return [];
+  }
+
+  // Kvíz „Vesmír" – poznej podle popisu / vyber správný popis
+  function buildFacts(cards) {
+    const pool = cards.slice();
+    return shuffle(pool).slice(0, Math.min(10, pool.length)).map((card, i) => {
+      const others = shuffle(pool.filter((c) => c.word !== card.word)).slice(0, 3);
+      if (i % 2 === 0) {
+        const opts = shuffle([card, ...others]).map((c) => ({ label: c.word, correct: c.word === card.word }));
+        return {
+          emoji: card.emoji,
+          prompt: `Co je to?<br><span class="q-hint">${card.note}</span>`,
+          options: opts, twoCol: false,
+          explain: `${card.word} – ${card.note}`
+        };
+      }
+      const opts = shuffle([card, ...others]).map((c) => ({ label: c.note, correct: c.word === card.word }));
+      return {
+        emoji: card.emoji,
+        prompt: `Co platí o: <b>${card.word}</b>?`,
+        options: opts, twoCol: false,
+        explain: `${card.word} – ${card.note}`
+      };
+    });
   }
 
   // Kvíz „Věty" – vyber překlad / poslechni a vyber překlad

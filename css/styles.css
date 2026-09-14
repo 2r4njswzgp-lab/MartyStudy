@@ -220,6 +220,12 @@ p { line-height: 1.4; }
 .flash .sentence-cs { color: var(--muted); font-weight: 700; font-size: 14px; margin-top: 3px; }
 .flash .phrase-en { font-size: 24px; font-weight: 900; color: var(--blue); text-shadow: 0 0 12px rgba(0,229,255,0.4); text-wrap: balance; line-height: 1.25; }
 .flash .phrase-cs { font-size: 17px; font-weight: 800; color: var(--text); margin-top: 8px; }
+.flash .fact {
+  margin: 10px auto 0; max-width: 92%;
+  background: rgba(255,152,0,0.10); border: 1px solid rgba(255,152,0,0.35);
+  border-radius: 14px; padding: 10px 14px;
+  color: var(--text); font-weight: 700; font-size: 15px; line-height: 1.35;
+}
 .flash .card-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
 .iconbtn {
   border: 1px solid var(--line); background: var(--card2); color: var(--text);

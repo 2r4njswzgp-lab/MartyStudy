@@ -782,6 +782,13 @@ const DATA = {
             { word: "Vesmírná stanice", emoji: "🛰️", note: "Velká loď, kde kosmonauti bydlí a pracují.", sentence: "Stanice ISS obletí Zemi za 90 minut.", fact: true },
             { word: "Vozítko (rover)", emoji: "🤖", note: "Robot, který jezdí po jiné planetě.", sentence: "Rovery zkoumají povrch Marsu.", fact: true }
           ]
+        },
+        {
+          id: "ve-videa", name: "Videa", icon: "🎬", type: "videos",
+          intro: "Podívej se na video o vesmíru. 🎬",
+          videos: [
+            { title: "Sluneční soustava (video)", yt: "7_Ncl_6-g90" }
+          ]
         }
       ]
     }

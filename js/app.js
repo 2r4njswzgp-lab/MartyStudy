@@ -217,7 +217,7 @@
 
   const practiceableTopics = () => {
     let n = 0;
-    DATA.subjects.forEach((s) => s.topics.forEach((t) => { if (t.type !== "soon" && t.type !== "group") n++; }));
+    DATA.subjects.forEach((s) => s.topics.forEach((t) => { if (t.type !== "soon" && t.type !== "group" && t.type !== "videos") n++; }));
     return n;
   };
   const practicedCount = () => Object.keys(store.progress).length;
@@ -484,6 +484,38 @@
       $("#back").addEventListener("click", () => go(backTo));
       $("#backBtn").addEventListener("click", () => go(backTo));
       bindFavTopic(sid, tid);
+      return;
+    }
+
+    if (t.type === "videos") {
+      const vids = t.videos || [];
+      let html = topbar(s, t, backTo);
+      if (t.intro) {
+        html += `<div class="progress-wrap" style="margin-bottom:14px">
+            <div style="font-weight:900;margin-bottom:4px">${t.icon} ${t.name}</div>
+            <div style="color:var(--muted);font-weight:700;font-size:14px;line-height:1.4">${t.intro}</div>
+          </div>`;
+      }
+      html += `<div class="video-list">${vids.map((v, i) => `
+          <div class="video-card">
+            <div class="video-frame" data-yt="${v.yt}" data-i="${i}">
+              <img src="https://img.youtube.com/vi/${v.yt}/hqdefault.jpg" alt="${v.title}" loading="lazy" />
+              <span class="video-play">▶</span>
+            </div>
+            <div class="video-title">${v.title}</div>
+          </div>`).join("")}</div>`;
+      app.innerHTML = html;
+      $("#back").addEventListener("click", () => go(backTo));
+      bindFavTopic(sid, tid);
+      $$(".video-frame").forEach((fr) =>
+        fr.addEventListener("click", () => {
+          const yt = fr.dataset.yt;
+          fr.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0"
+            title="video" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen></iframe>`;
+          fr.classList.add("playing");
+        })
+      );
       return;
     }
 
@@ -1264,7 +1296,7 @@
 
     DATA.subjects.forEach((s) => {
       const rows = s.topics
-        .filter((t) => t.type !== "soon" && t.type !== "group")
+        .filter((t) => t.type !== "soon" && t.type !== "group" && t.type !== "videos")
         .map((t) => {
           const prog = store.progress[topicKey(s.id, t.id)];
           const meta = prog ? `<span class="progress-pill">nejlíp ${prog.best}%</span>` : "";

@@ -239,7 +239,7 @@
 
     switch (view) {
       case "home": renderHome(); setNav("home"); break;
-      case "talk": renderTalk(); setNav("talk"); break;
+      // "talk" (hlasový Lumi) je prozatím skrytý – položka v liště odebrána
       case "subjects": renderSubjects(); setNav("subjects"); break;
       case "subject": renderSubject(parts[1]); setNav("subjects"); break;
       case "group": renderGroup(parts[1], parts[2]); setNav("subjects"); break;

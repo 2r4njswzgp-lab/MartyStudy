@@ -234,8 +234,12 @@
 
     window.scrollTo(0, 0);
 
+    // odchod z „Mluv s Lumim" ukončí hlasovou session
+    if (view !== "talk" && lumiRT) lumiHangup();
+
     switch (view) {
       case "home": renderHome(); setNav("home"); break;
+      case "talk": renderTalk(); setNav("talk"); break;
       case "subjects": renderSubjects(); setNav("subjects"); break;
       case "subject": renderSubject(parts[1]); setNav("subjects"); break;
       case "group": renderGroup(parts[1], parts[2]); setNav("subjects"); break;
@@ -1593,6 +1597,214 @@
       const banner = $("#installBanner");
       if (banner) banner.hidden = true;
     });
+  }
+
+  /* ----------------------------------------------------------------------
+     Mluv s Lumim – hlasová konverzace (OpenAI Realtime přes WebRTC)
+     Token vydává náš Cloudflare endpoint; permanentní klíč tu NENÍ.
+     ---------------------------------------------------------------------- */
+  const LUMI_SESSION_ENDPOINT = "api/realtime-session"; // Cloudflare Pages Function
+  const LUMI_VOICE = "marin";
+  const LUMI_MAX_SESSION_MS = 5 * 60 * 1000; // max délka jednoho povídání
+  const LUMI_IDLE_MS = 40 * 1000;            // ukončení při nečinnosti
+  let lumiRT = null;        // { pc, dc, mic, audio }
+  let lumiConnecting = false;
+  let lumiTimers = { max: null, idle: null };
+
+  function renderTalk() {
+    lumiHangup(); // čistý start
+    app.innerHTML = `
+      <div class="topbar"><h2 style="color:var(--blue)">🎙️ Mluv s Lumim</h2></div>
+      <div class="talk-wrap">
+        <div class="talk-lumi" id="talkLumi"><img src="${LUMI_IMG}" alt="Lumi" /></div>
+        <div class="talk-status" id="talkStatus">Zmáčkni mikrofon a povídej si s Lumim.</div>
+        <div class="talk-bubble" id="talkText" hidden></div>
+        <button class="mic-btn" id="micBtn" aria-label="Mikrofon"><span id="micIcon">🎙️</span></button>
+        <div class="talk-hint">Klidně se ptej na cokoli – vesmír, škola, svět… 🚀</div>
+      </div>`;
+    $("#micBtn").addEventListener("click", () => {
+      if (lumiConnecting) return;
+      if (lumiRT) lumiHangup(); else lumiConnect();
+    });
+    setTalkState("idle");
+  }
+
+  function setTalkState(state, text) {
+    const status = $("#talkStatus");
+    const lumi = $("#talkLumi");
+    const btn = $("#micBtn");
+    const icon = $("#micIcon");
+    if (!status) return;
+    const msgs = {
+      idle: "Zmáčkni mikrofon a povídej si s Lumim.",
+      connecting: "Připojuji Lumiho…",
+      listening: "Lumi poslouchá… 👂",
+      hearing: "Poslouchám tě… 🎧",
+      thinking: "Lumi přemýšlí… 🤔",
+      speaking: "Lumi odpovídá… 💬",
+      error: "Něco se nepovedlo. Zkus to prosím znovu."
+    };
+    status.textContent = text || msgs[state] || "";
+    if (lumi) {
+      lumi.classList.toggle("is-speaking", state === "speaking");
+      lumi.classList.toggle("is-listening", state === "listening" || state === "hearing");
+    }
+    const active = !(state === "idle" || state === "error");
+    if (btn) btn.classList.toggle("active", active);
+    if (icon) icon.textContent = active ? "⏹️" : "🎙️";
+  }
+
+  function showTalkText(who, txt) {
+    const el = $("#talkText");
+    if (!el || !txt) return;
+    el.hidden = false;
+    el.innerHTML = `<span class="tt-who">${who}</span> ${txt}`;
+  }
+
+  async function lumiConnect() {
+    lumiConnecting = true;
+    setTalkState("connecting");
+    let token, model;
+    try {
+      const res = await fetch(LUMI_SESSION_ENDPOINT, { method: "POST" });
+      if (!res.ok) {
+        let m = "Mluv s Lumim funguje jen v ostré aplikaci (martystudy.pages.dev).";
+        try { const j = await res.json(); if (j.error) m = j.error; } catch (e) {}
+        lumiConnecting = false;
+        return setTalkState("error", m);
+      }
+      const data = await res.json();
+      token = data.token; model = data.model || "gpt-realtime";
+    } catch (e) {
+      lumiConnecting = false;
+      return setTalkState("error", "Nedaří se připojit. Jsi online?");
+    }
+
+    let mic;
+    try {
+      mic = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      lumiConnecting = false;
+      return setTalkState("error", "Potřebuju povolení k mikrofonu 🎤");
+    }
+
+    try {
+      const pc = new RTCPeerConnection();
+      const audio = document.createElement("audio");
+      audio.autoplay = true;
+      audio.playsInline = true;
+      pc.ontrack = (e) => { audio.srcObject = e.streams[0]; };
+      pc.addTrack(mic.getAudioTracks()[0], mic);
+
+      const dc = pc.createDataChannel("oai-events");
+      dc.onopen = () => {
+        try { dc.send(JSON.stringify(lumiSessionUpdate())); } catch (e) {}
+        setTalkState("listening");
+      };
+      dc.onmessage = onRealtimeEvent;
+
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      const sdpRes = await fetch(`https://api.openai.com/v1/realtime?model=${encodeURIComponent(model)}`, {
+        method: "POST",
+        body: offer.sdp,
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/sdp" }
+      });
+      if (!sdpRes.ok) throw new Error("SDP " + sdpRes.status);
+      const answer = { type: "answer", sdp: await sdpRes.text() };
+      await pc.setRemoteDescription(answer);
+
+      lumiRT = { pc, dc, mic, audio };
+      lumiConnecting = false;
+      startLumiTimers();
+    } catch (e) {
+      lumiConnecting = false;
+      try { mic.getTracks().forEach((t) => t.stop()); } catch (er) {}
+      setTalkState("error", "Spojení s Lumim se nepovedlo. Zkus to znovu.");
+    }
+  }
+
+  // Nastavení session přes datový kanál (hlas, rozpoznání konce mluvení, přepis).
+  function lumiSessionUpdate() {
+    return {
+      type: "session.update",
+      session: {
+        type: "realtime",
+        audio: {
+          input: {
+            turn_detection: {
+              type: "server_vad",
+              silence_duration_ms: 650,
+              create_response: true,
+              interrupt_response: true
+            },
+            transcription: { model: "whisper-1" }
+          },
+          output: { voice: LUMI_VOICE }
+        }
+      }
+    };
+  }
+
+  function onRealtimeEvent(e) {
+    let msg;
+    try { msg = JSON.parse(e.data); } catch (er) { return; }
+    resetIdleTimer();
+    switch (msg.type) {
+      case "input_audio_buffer.speech_started":
+        setTalkState("hearing"); break;
+      case "input_audio_buffer.speech_stopped":
+        setTalkState("thinking"); break;
+      case "response.created":
+        setTalkState("thinking"); break;
+      case "response.audio.delta":
+      case "response.output_audio.delta":
+        setTalkState("speaking"); break;
+      case "response.done":
+        if (lumiRT) setTalkState("listening"); break;
+      case "conversation.item.input_audio_transcription.completed":
+        if (msg.transcript) showTalkText("Ty:", msg.transcript); break;
+      case "response.audio_transcript.done":
+      case "response.output_audio_transcript.done":
+        if (msg.transcript) showTalkText("Lumi:", msg.transcript); break;
+      case "error":
+        console.warn("Realtime error:", msg.error || msg); break;
+    }
+  }
+
+  function startLumiTimers() {
+    clearLumiTimers();
+    lumiTimers.max = setTimeout(() => {
+      lumiHangup();
+      setTalkState("idle", "Napovídali jsme se dost 😊 Klidně mě zase zapni.");
+    }, LUMI_MAX_SESSION_MS);
+    resetIdleTimer();
+  }
+  function resetIdleTimer() {
+    if (!lumiRT) return;
+    clearTimeout(lumiTimers.idle);
+    lumiTimers.idle = setTimeout(() => {
+      lumiHangup();
+      setTalkState("idle", "Zdálo se, že už si nepovídáme. Zmáčkni mě, až budeš chtít. 👋");
+    }, LUMI_IDLE_MS);
+  }
+  function clearLumiTimers() {
+    clearTimeout(lumiTimers.max); clearTimeout(lumiTimers.idle);
+    lumiTimers.max = lumiTimers.idle = null;
+  }
+
+  function lumiHangup() {
+    clearLumiTimers();
+    if (lumiRT) {
+      try { lumiRT.dc && lumiRT.dc.close(); } catch (e) {}
+      try { lumiRT.pc && lumiRT.pc.close(); } catch (e) {}
+      try { lumiRT.mic && lumiRT.mic.getTracks().forEach((t) => t.stop()); } catch (e) {}
+      try { if (lumiRT.audio) lumiRT.audio.srcObject = null; } catch (e) {}
+    }
+    lumiRT = null;
+    lumiConnecting = false;
+    if ($("#talkStatus")) setTalkState("idle");
   }
 
   /* ----------------------------------------------------------------------

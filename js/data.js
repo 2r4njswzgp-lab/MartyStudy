@@ -797,6 +797,28 @@ const DATA = {
           ]
         }
       ]
+    },
+    {
+      id: "lm",
+      name: "Logické myšlení",
+      short: "Logika",
+      color: "#1de9b6",
+      color2: "#64ffda",
+      icon: "🧠",
+      topics: [
+        {
+          id: "lm-cisla", name: "Čísla a logika", icon: "🔢", type: "mcq",
+          questions: [{"q": "Kolik je 8 + 7?", "options": ["13", "14", "15", "16"], "answer": 2}, {"q": "Které číslo pokračuje v řadě?  2, 4, 6, 8, ?", "options": ["9", "10", "11", "12"], "answer": 1}, {"q": "Eliška má 12 bonbonů. 4 rozdá kamarádům. Kolik jí zbude?", "options": ["6", "7", "8", "9"], "answer": 2}, {"q": "Které číslo do řady nepatří?  5, 10, 15, 17, 20", "options": ["10", "15", "17", "20"], "answer": 2}, {"q": "Myslím si číslo. Když k němu přičtu 5, dostanu 13. Jaké číslo myslím?", "options": ["7", "8", "9", "10"], "answer": 1}, {"q": "Tomáš má 3 krabičky. V každé jsou 4 pastelky. Kolik pastelek má celkem?", "options": ["7", "10", "12", "14"], "answer": 2}, {"q": "Které číslo následuje?  20, 18, 16, 14, ?", "options": ["10", "11", "12", "13"], "answer": 2}, {"q": "Aničce je 8 let. Její bratr je o 3 roky starší. Kolik je bratrovi?", "options": ["9", "10", "11", "12"], "answer": 2}, {"q": "Dvě děti mají dohromady 18 kuliček. Jedno má 10. Kolik má druhé?", "options": ["6", "7", "8", "9"], "answer": 2}, {"q": "Který výpočet má výsledek 24?", "options": ["6 × 4", "5 × 4", "7 × 3", "8 × 2"], "answer": 0}]
+        },
+        {
+          id: "lm-slova", name: "Slova a šifry", icon: "🔤", type: "mcq",
+          questions: [{"q": "Které slovo nepatří mezi ostatní?", "options": ["pes", "kočka", "kůň", "stůl"], "answer": 3}, {"q": "Které slovo je opakem slova malý?", "options": ["krátký", "velký", "lehký", "slabý"], "answer": 1}, {"q": "Doplň slovo:  KO _ KA", "options": ["Č", "S", "T", "L"], "answer": 0}, {"q": "Které slovo vznikne z písmen L E S?", "options": ["LES", "PES", "SEN", "LEN"], "answer": 0}, {"q": "Které slovo má nejvíce písmen?", "options": ["pes", "kočka", "sluníčko", "lev"], "answer": 2}, {"q": "Které slovo začíná stejně jako AUTO?", "options": ["autobus", "strom", "pero", "vlak"], "answer": 0}, {"q": "Když platí 1=A, 2=B, 3=C, co znamená 3–1–2?", "options": ["ABC", "CAB", "BAC", "CBA"], "answer": 1}, {"q": "Které slovo lze složit z písmen M – O – D?", "options": ["DOM", "LES", "PES", "DEN"], "answer": 0}, {"q": "Co mají společného slova jablko, hruška, švestka?", "options": ["Jsou to zvířata", "Jsou to ovoce", "Jsou to barvy", "Jsou to města"], "answer": 1}, {"q": "Šifra:  16 5 19.  Když A=1, B=2, C=3…, jaké slovo vznikne?", "options": ["PES", "LES", "DEN", "SEN"], "answer": 0}]
+        },
+        {
+          id: "lm-pozornost", name: "Pozornost a přemýšlení", icon: "👀", type: "mcq",
+          questions: [{"q": "Petr má 2 sestry. Každá sestra má jednoho bratra. Kolik bratrů mají sestry dohromady?", "options": ["1", "2", "3", "4"], "answer": 0}, {"q": "Na větvi sedí 5 ptáků. Jeden odletí. Kolik jich zůstane?", "options": ["3", "4", "5", "6"], "answer": 1}, {"q": "Co je těžší?", "options": ["1 kg železa", "1 kg peří", "Váží stejně", "Nedá se zjistit"], "answer": 2}, {"q": "Máš 10 korun a utratíš 3. Kolik ti zbude?", "options": ["6", "7", "8", "13"], "answer": 1}, {"q": "Který tvar má 3 strany?", "options": ["kruh", "čtverec", "trojúhelník", "obdélník"], "answer": 2}, {"q": "V místnosti jsou 4 židle. Na každé sedí jedno dítě. Kolik dětí je v místnosti?", "options": ["2", "3", "4", "8"], "answer": 2}, {"q": "Která dvojice k sobě patří nejlépe?", "options": ["boty – nohy", "čepice – ruka", "rukavice – hlava", "ponožky – ruce"], "answer": 0}, {"q": "Co následuje?  🔴 🔵 🔴 🔵 🔴 ?", "options": ["🔴", "🔵", "🟢", "🟡"], "answer": 1}, {"q": "Který předmět běžně nepoužíváme ve škole?", "options": ["tužka", "sešit", "pravítko", "pánev"], "answer": 3}, {"q": "Honza stojí před Petrem. Petr stojí před Lukášem. Kdo stojí uprostřed?", "options": ["Honza", "Petr", "Lukáš", "nelze zjistit"], "answer": 1}]
+        }
+      ]
     }
   ]
 };

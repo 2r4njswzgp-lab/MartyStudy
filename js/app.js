@@ -523,6 +523,21 @@
       return;
     }
 
+    if (t.type === "mcq") {
+      const n = (t.questions || []).length;
+      app.innerHTML = topbar(s, t, backTo) + `
+        <div class="empty">
+          <div class="e-emoji">${t.icon}</div>
+          <div class="e-title">${t.name}</div>
+          <p>${n} otázek na logické myšlení.<br>Pokaždé se trochu zamíchají. 🧠</p>
+          <div class="btn-row"><button class="btn" id="quizBtn" style="--accent:${s.color}">🎯 Spustit procvičování</button></div>
+        </div>`;
+      $("#back").addEventListener("click", () => go(backTo));
+      $("#quizBtn").addEventListener("click", () => go(`/quiz/${sid}/${tid}`));
+      bindFavTopic(sid, tid);
+      return;
+    }
+
     const cards = topicCards(t);
 
     let html = topbar(s, t, backTo);
@@ -727,7 +742,25 @@
     if (t.type === "hardsoft") return buildHardSoft(t);
     if (t.type === "phrases") return buildPhrases(t.cards);
     if (t.type === "facts") return buildFacts(t.cards);
+    if (t.type === "mcq") return buildMCQ(t);
     return [];
+  }
+
+  // Kvíz „Logické myšlení" – hotové otázky s výběrem z možností
+  function buildMCQ(t) {
+    const qs = (t.questions || []).slice();
+    return shuffle(qs).map((it) => {
+      const correctText = it.options[it.answer];
+      const opts = shuffle(it.options.map((o) => ({ label: o, correct: o === correctText })));
+      const twoCol = it.options.every((o) => String(o).length <= 12);
+      return {
+        emoji: t.icon || "🧩",
+        prompt: it.q,
+        options: opts,
+        twoCol,
+        explain: `Správně: ${correctText}`
+      };
+    });
   }
 
   // Kvíz „Vesmír" – poznej podle popisu / vyber správný popis

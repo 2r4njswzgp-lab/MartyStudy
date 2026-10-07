@@ -412,7 +412,7 @@
         ? `<span class="badge-soon">🔒 od ${t.minPct || 80} %</span>`
         : `<span class="progress-pill">${count}</span>`;
       return `<button class="topic${locked ? " locked" : ""}" data-group="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" data-req="${t.reqName || "předchozí úroveň"}" style="--accent:${s.color}">
-        <span class="ic">${t.icon}</span>
+        <span class="ic">${t.iconImg ? `<img class="ic-img" src="${t.iconImg}" alt="" />` : t.icon}</span>
         <span class="nm">${t.name}</span>
         <span class="meta">${meta}<span style="color:${s.color};font-size:20px">${locked ? "🔒" : "›"}</span></span>
       </button>`;
@@ -457,7 +457,7 @@
 
     if (!groupUnlocked(s, g)) {
       app.innerHTML = `
-        <div class="topbar"><button class="backbtn" id="back">‹</button><h2 style="color:${s.color}">${g.icon} ${g.name}</h2></div>
+        <div class="topbar"><button class="backbtn" id="back">‹</button><h2 style="color:${s.color}">${g.iconImg ? `<img class="ic-img-h" src="${g.iconImg}" alt="" />` : g.icon} ${g.name}</h2></div>
         <div class="empty">
           <div class="e-emoji">🔒</div>
           <div class="e-title">Zatím zamčeno</div>
@@ -473,7 +473,7 @@
     app.innerHTML = `
       <div class="topbar">
         <button class="backbtn" id="back">‹</button>
-        <h2 style="color:${s.color}">${g.icon} ${g.name}</h2>
+        <h2 style="color:${s.color}">${g.iconImg ? `<img class="ic-img-h" src="${g.iconImg}" alt="" />` : g.icon} ${g.name}</h2>
       </div>
       <div class="topic-list">${rows.join("")}</div>
     `;

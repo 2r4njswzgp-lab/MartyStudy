@@ -411,7 +411,7 @@
       const meta = locked
         ? `<span class="badge-soon">🔒 od ${t.minPct || 80} %</span>`
         : `<span class="progress-pill">${count}</span>`;
-      return `<button class="topic${locked ? " locked" : ""}" data-group="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" style="--accent:${s.color}">
+      return `<button class="topic${locked ? " locked" : ""}" data-group="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" data-req="${t.reqName || "předchozí úroveň"}" style="--accent:${s.color}">
         <span class="ic">${t.icon}</span>
         <span class="nm">${t.name}</span>
         <span class="meta">${meta}<span style="color:${s.color};font-size:20px">${locked ? "🔒" : "›"}</span></span>
@@ -461,7 +461,7 @@
         <div class="empty">
           <div class="e-emoji">🔒</div>
           <div class="e-title">Zatím zamčeno</div>
-          <p>Nejdřív zvládni <b>Úroveň 1</b> aspoň na <b>${g.minPct || 80} %</b><br>v každém cvičení. Pak se Safír odemkne. 💎</p>
+          <p>Nejdřív zvládni <b>${g.reqName || "předchozí úroveň"}</b> aspoň na <b>${g.minPct || 80} %</b><br>v každém cvičení. Pak se tahle úroveň odemkne. ${g.icon}</p>
           <div class="btn-row"><button class="btn secondary" id="backBtn">‹ Zpět</button></div>
         </div>`;
       $("#back").addEventListener("click", () => go(`/subject/${sid}`));
@@ -491,7 +491,7 @@
     $$(".topic[data-group]").forEach((b) =>
       b.addEventListener("click", () => {
         if (b.dataset.locked === "1") {
-          toast("🔒 Nejdřív zvládni Úroveň 1 aspoň na 80 % v každém cvičení.");
+          toast("🔒 Nejdřív zvládni " + (b.dataset.req || "předchozí úroveň") + " aspoň na 80 % v každém cvičení.");
           return;
         }
         const [sid, gid] = b.dataset.group.split("/");

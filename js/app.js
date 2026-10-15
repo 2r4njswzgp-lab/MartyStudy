@@ -813,7 +813,7 @@
         { label: "NE", correct: it.a === false }
       ],
       twoCol: true,
-      explain: it.a ? "Správně je ANO. ✅" : "Správně je NE. ✅"
+      explain: (it.a ? "Správně je ANO. ✅ " : "Správně je NE. ✅ ") + (it.why || "")
     }));
   }
 

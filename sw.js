@@ -1,5 +1,5 @@
 /* MartyStudy – service worker (offline + automatická aktualizace) */
-const CACHE = "martystudy-v38";
+const CACHE = "martystudy-v39";
 const ASSETS = [
   "./",
   "./index.html",
@@ -11,6 +11,7 @@ const ASSETS = [
   "./icons/icon-maskable.svg",
   "./img/lumi.png",
   "./img/smaragd.png",
+  "./img/safir.png",
   "./video.mp4",
   "./pin.txt"
 ];

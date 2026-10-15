@@ -396,38 +396,50 @@
     const min = g.minPct || 80;
     return g.requires.every((id) => (store.progress[s.id + "/" + id]?.best || 0) >= min);
   }
-  // Je téma zamčené, protože patří do zamčené skupiny?
+  // Je téma odemčené? (volitelná podmínka requires + minPct přímo na tématu)
+  function topicUnlocked(s, t) {
+    if (!t.requires) return true;
+    const min = t.minPct || 80;
+    return t.requires.every((id) => (store.progress[s.id + "/" + id]?.best || 0) >= min);
+  }
+  // Je téma zamčené? (patří do zamčené skupiny NEBO má vlastní nesplněnou podmínku)
   function topicLocked(s, t) {
-    if (!t.group) return false;
-    const g = s.topics.find((x) => x.id === t.group && x.type === "group");
-    return g ? !groupUnlocked(s, g) : false;
+    if (t.group) {
+      const g = s.topics.find((x) => x.id === t.group && x.type === "group");
+      if (g && !groupUnlocked(s, g)) return true;
+    }
+    return !topicUnlocked(s, t);
   }
 
   // Řádek tématu / skupiny v seznamu
   function topicRowHTML(s, t) {
+    const iconHtml = t.iconImg ? `<img class="ic-img" src="${t.iconImg}" alt="" />` : t.icon;
     if (t.type === "group") {
       const count = s.topics.filter((x) => x.group === t.id).length;
       const locked = !groupUnlocked(s, t);
       const meta = locked
         ? `<span class="badge-soon">🔒 od ${t.minPct || 80} %</span>`
         : `<span class="progress-pill">${count}</span>`;
-      return `<button class="topic${locked ? " locked" : ""}" data-group="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" data-req="${t.reqName || "předchozí úroveň"}" style="--accent:${s.color}">
-        <span class="ic">${t.iconImg ? `<img class="ic-img" src="${t.iconImg}" alt="" />` : t.icon}</span>
+      return `<button class="topic${locked ? " locked" : ""}" data-group="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" data-req="${t.reqName || "předchozí úroveň"}" data-min="${t.minPct || 80}" style="--accent:${s.color}">
+        <span class="ic">${iconHtml}</span>
         <span class="nm">${t.name}</span>
         <span class="meta">${meta}<span style="color:${s.color};font-size:20px">${locked ? "🔒" : "›"}</span></span>
       </button>`;
     }
     const prog = store.progress[topicKey(s.id, t.id)];
+    const locked = topicLocked(s, t);
     const meta =
       t.type === "soon"
         ? `<span class="badge-soon">Brzy</span>`
+        : locked
+        ? `<span class="badge-soon">🔒 od ${t.minPct || 90} %</span>`
         : prog
         ? `<span class="progress-pill">${prog.best}%</span>`
         : "";
-    return `<button class="topic" data-topic="${s.id}/${t.id}" style="--accent:${s.color}">
-      <span class="ic">${t.icon}</span>
+    return `<button class="topic${locked ? " locked" : ""}" data-topic="${s.id}/${t.id}" data-locked="${locked ? 1 : 0}" data-req="${t.reqName || "předchozí úroveň"}" data-min="${t.minPct || 90}" style="--accent:${s.color}">
+      <span class="ic">${iconHtml}</span>
       <span class="nm">${t.name}</span>
-      <span class="meta">${meta}<span style="color:${s.color};font-size:20px">›</span></span>
+      <span class="meta">${meta}<span style="color:${s.color};font-size:20px">${locked ? "🔒" : "›"}</span></span>
     </button>`;
   }
 
@@ -484,6 +496,10 @@
   function bindTopicRows() {
     $$(".topic[data-topic]").forEach((b) =>
       b.addEventListener("click", () => {
+        if (b.dataset.locked === "1") {
+          toast("🔒 Nejdřív zvládni " + (b.dataset.req || "předchozí úroveň") + " aspoň na " + (b.dataset.min || "90") + " %.");
+          return;
+        }
         const [sid, tid] = b.dataset.topic.split("/");
         go(`/topic/${sid}/${tid}`);
       })
@@ -491,7 +507,7 @@
     $$(".topic[data-group]").forEach((b) =>
       b.addEventListener("click", () => {
         if (b.dataset.locked === "1") {
-          toast("🔒 Nejdřív zvládni " + (b.dataset.req || "předchozí úroveň") + " aspoň na 80 % v každém cvičení.");
+          toast("🔒 Nejdřív zvládni " + (b.dataset.req || "předchozí úroveň") + " aspoň na " + (b.dataset.min || "80") + " % v každém cvičení.");
           return;
         }
         const [sid, gid] = b.dataset.group.split("/");
@@ -559,13 +575,16 @@
       return;
     }
 
-    if (t.type === "mcq") {
+    if (t.type === "mcq" || t.type === "truefalse") {
       const n = (t.questions || []).length;
+      const popis = t.type === "truefalse"
+        ? `${n} otázek – odpovídej <b>ANO</b> nebo <b>NE</b>. ✅`
+        : `${n} otázek. Pokaždé se trochu zamíchají. 🧠`;
       app.innerHTML = topbar(s, t, backTo) + `
         <div class="empty">
-          <div class="e-emoji">${t.icon}</div>
+          <div class="e-emoji">${t.iconImg ? `<img class="ic-img-big" src="${t.iconImg}" alt="" />` : t.icon}</div>
           <div class="e-title">${t.name}</div>
-          <p>${n} otázek na logické myšlení.<br>Pokaždé se trochu zamíchají. 🧠</p>
+          <p>${popis}</p>
           <div class="btn-row"><button class="btn" id="quizBtn" style="--accent:${s.color}">🎯 Spustit procvičování</button></div>
         </div>`;
       $("#back").addEventListener("click", () => go(backTo));
@@ -779,7 +798,23 @@
     if (t.type === "phrases") return buildPhrases(t.cards);
     if (t.type === "facts") return buildFacts(t.cards);
     if (t.type === "mcq") return buildMCQ(t);
+    if (t.type === "truefalse") return buildTrueFalse(t);
     return [];
+  }
+
+  // Kvíz „ANO / NE" – tvrzení, dítě odpoví ano nebo ne
+  function buildTrueFalse(t) {
+    const qs = (t.questions || []).slice();
+    return shuffle(qs).map((it) => ({
+      emoji: "💭",
+      prompt: it.q,
+      options: [
+        { label: "ANO", correct: it.a === true },
+        { label: "NE", correct: it.a === false }
+      ],
+      twoCol: true,
+      explain: it.a ? "Správně je ANO. ✅" : "Správně je NE. ✅"
+    }));
   }
 
   // Kvíz „Logické myšlení" – hotové otázky s výběrem z možností

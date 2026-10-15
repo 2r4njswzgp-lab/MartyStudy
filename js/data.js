@@ -856,6 +856,32 @@ const DATA = {
           questions: [{"q": "5 koček chytí 5 myší za 5 minut. Za jak dlouho chytí 5 koček 5 myší?", "options": ["1 minutu", "5 minut", "10 minut", "25 minut"], "answer": 1}, {"q": "Otec je 4× starší než syn. Synovi je 8. Kolik let je otci?", "options": ["12", "24", "32", "40"], "answer": 2}, {"q": "Kolik stěn má kostka (krychle)?", "options": ["4", "6", "8", "12"], "answer": 1}, {"q": "Vlak vyjede v 8:00 a jede 3 hodiny. V kolik přijede?", "options": ["10:00", "11:00", "12:00", "3:00"], "answer": 1}, {"q": "Které číslo je sudé a zároveň větší než 10?", "options": ["7", "9", "11", "12"], "answer": 3}, {"q": "Co následuje?  1, A, 2, B, 3, C, 4, ?", "options": ["5", "D", "4", "E"], "answer": 1}, {"q": "Co je víc: polovina z 20, nebo čtvrtina ze 40?", "options": ["polovina z 20", "čtvrtina ze 40", "Jsou stejně", "Nedá se zjistit"], "answer": 2}, {"q": "Honza je vyšší než Petr. Petr je vyšší než Ivan. Kdo je nejvyšší?", "options": ["Honza", "Petr", "Ivan", "nelze zjistit"], "answer": 0}, {"q": "Co následuje?  🔴 🔴 🔵 🔴 🔴 🔵 🔴 🔴 ?", "options": ["🔴", "🔵", "🟢", "🟡"], "answer": 1}, {"q": "Kolik bude hodin 3 hodiny po půlnoci?", "options": ["1:00", "3:00", "9:00", "12:00"], "answer": 1}]
         }
       ]
+    },
+    {
+      id: "vz",
+      name: "Všeobecné znalosti",
+      short: "Znalosti",
+      color: "#ff4fd8",
+      color2: "#ff8ae8",
+      icon: "💡",
+      topics: [
+        {
+          id: "vz-1", name: "Úroveň 1 – Kámen", icon: "🪨", type: "truefalse",
+          questions: [{"q": "Slunce vychází na východě.", "a": true}, {"q": "Ryba umí létat.", "a": false}, {"q": "Kráva dává mléko.", "a": true}, {"q": "V zimě obvykle padá sníh.", "a": true}, {"q": "Pavouk má šest nohou.", "a": false}, {"q": "Praha je hlavní město České republiky.", "a": true}, {"q": "Oheň je studený.", "a": false}, {"q": "Týden má sedm dní.", "a": true}, {"q": "Pes dělá „mňau“.", "a": false}, {"q": "Banán je ovoce.", "a": true}]
+        },
+        {
+          id: "vz-2", name: "Úroveň 2 – Silver", icon: "🥈", type: "truefalse", requires: ["vz-1"], minPct: 90, reqName: "Úroveň 1 – Kámen",
+          questions: [{"q": "Z housenky se vylíhne motýl.", "a": true}, {"q": "Netopýr je pták.", "a": false}, {"q": "Voda zmrzne a změní se na led.", "a": true}, {"q": "Měsíc svítí vlastním světlem.", "a": false}, {"q": "Rok má 12 měsíců.", "a": true}, {"q": "Žralok je savec.", "a": false}, {"q": "Rostliny potřebují ke svému růstu světlo.", "a": true}, {"q": "Mravenec patří mezi hmyz.", "a": true}, {"q": "Nejrychlejší suchozemské zvíře je želva.", "a": false}, {"q": "Déšť vzniká z mraků.", "a": true}]
+        },
+        {
+          id: "vz-3", name: "Úroveň 3 – Safír", icon: "💎", type: "truefalse", requires: ["vz-2"], minPct: 90, reqName: "Úroveň 2 – Silver",
+          questions: [{"q": "Nejvyšší hora světa je Mount Everest.", "a": true}, {"q": "Pavouk patří mezi hmyz.", "a": false}, {"q": "Srdce rozvádí krev po těle.", "a": true}, {"q": "Velryba dýchá žábrami.", "a": false}, {"q": "Led plave na vodě, protože je lehčí.", "a": true}, {"q": "Čeština se píše latinkou.", "a": true}, {"q": "Slunce je planeta.", "a": false}, {"q": "Včely vyrábějí med.", "a": true}, {"q": "Česká republika leží v Africe.", "a": false}, {"q": "Teploměr měří teplotu.", "a": true}]
+        },
+        {
+          id: "vz-4", name: "Úroveň 4 – Smaragd", icon: "💚", iconImg: "img/smaragd.png", type: "truefalse", requires: ["vz-3"], minPct: 90, reqName: "Úroveň 3 – Safír",
+          questions: [{"q": "Voda se skládá z vodíku a kyslíku.", "a": true}, {"q": "Netopýři se v noci orientují pomocí zvuku.", "a": true}, {"q": "Nejbližší hvězda Zemi je Polárka.", "a": false}, {"q": "Žádné dvě sněhové vločky nejsou úplně stejné.", "a": true}, {"q": "Všichni pavouci mají křídla.", "a": false}, {"q": "Dinosauři dodnes žijí v pralesích.", "a": false}, {"q": "Rostliny při fotosyntéze vyrábějí kyslík.", "a": true}, {"q": "Mozek řídí naše myšlení i pohyby.", "a": true}, {"q": "Hrom slyšíme dřív, než uvidíme blesk.", "a": false}, {"q": "Kompas ukazuje k severu.", "a": true}]
+        }
+      ]
     }
   ]
 };

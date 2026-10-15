@@ -829,7 +829,7 @@
         prompt: it.q,
         options: opts,
         twoCol,
-        explain: `Správně: ${correctText}`
+        explain: `Správně je ${correctText}.` + (it.why ? " " + it.why : "")
       };
     });
   }
